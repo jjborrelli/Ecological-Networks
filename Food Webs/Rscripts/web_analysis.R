@@ -209,9 +209,7 @@ web_permutation <- function(webmatrices, fixedmar, times){
   return(p.motif)
 }
 
-system.time(
-permutes <- web_permutation(web.matrices, fixedmar = "both", times = 1000)
-)
+
 p.means <- lapply(permutes, FUN = function(x){colMeans(x[,2:14])})
 pmeanmat <- matrix(unlist(p.means), ncol = 13, nrow = 50, byrow = T)
 p.sd <- lapply(permutes, FUN = function(x){apply(x[,2:14], 2, sd)})
@@ -221,19 +219,23 @@ zscor <- (mot.mat - pmeanmat) / psdmat
 znorm <- zscor/colSums(zscor^2, na.rm = T)
 boxplot(znorm)
 
-## Calculate confidence intervals
-lapply(permutes, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
+## Calculate permuted webs and confidence intervals
+system.time(
+  permutes <- web_permutation(web.matrices, fixedmar = "both", times = 1000)
+)
+
+permint.both<- lapply(permutes, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
 
 
 system.time(
   permutes.row <- web_permutation(web.matrices, fixedmar = "rows", times = 1000)
 )
 
-lapply(permutes.row, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
+permint.row <- lapply(permutes.row, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
 
 
 system.time(
   permutes.col <- web_permutation(web.matrices, fixedmar = "columns", times = 1000)
 )
 
-lapply(permutes.col, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
+permint.col <- lapply(permutes.col, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
