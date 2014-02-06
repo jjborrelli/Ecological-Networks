@@ -43,13 +43,13 @@ hist(node.props$TL, breaks = 40, freq =F)
 plot(node.props$OI ~ node.props$TL)
 
 # ggplot of distribution of trophic positions equal or higher than 2
-tc.plot<-qplot(node.props$TL[consumers], binwidth = .25, geom = "histogram", 
+tc.plot<-qplot(node.props$TL[consumers], binwidth = .8, geom = "histogram", 
              xlab = "Trophic Position", ylab = "Frequency")
 tc.plot <- tc.plot + theme(axis.title.x = element_text(size = 20))
 tc.plot <- tc.plot + theme(axis.title.y = element_text(size = 20))
 tc.plot <- tc.plot + theme(axis.text.x = element_text(size = 15))
 tc.plot <- tc.plot + theme(axis.text.y = element_text(size = 15))
-tc.plot + scale_x_continuous(breaks = 1:6)
+tc.plot #+ scale_x_continuous(breaks = 1:6)
 
 # For saving the image to desktop, or working directory
 #setwd("~/Desktop") 
@@ -177,13 +177,20 @@ nulldistr.web <- do.call(rbind, websplit)
 ?permatfull
 testing <- web.matrices[[1]]
 
-permuted2 <- permatfull(testing, fixedmar = "columns", mtype = "prab", times = 25)
+permuted2 <- permatfull(testing, fixedmar = "both", mtype = "prab", times = 1000)
 plot(permuted)
 
 permuted.graphs2 <- lapply(permuted2$perm, graph.adjacency)
 
-p.motif2 <- motif_counter(permuted.graphs2, webs = as.character(1:25))
+p.motif2 <- motif_counter(permuted.graphs2, webs = as.character(1:1000))
 pmeans <- colMeans(p.motif2[2:14])
+boxplot(p.motif2[2:14])
+quant <- apply(p.motif2[2:14], 2, quantile, probs = c(0.975, 0.025))
+
+plot(pmeans, ylim = c(-1, 1500))
+points(quant[1,], col = "blue")
+points(quant[2,], col = "blue")
+points(tes, col = "red")
 
 ## Write a function to use on a list of matrices
 web_permutation <- function(webmatrices, fixedmar, times){
