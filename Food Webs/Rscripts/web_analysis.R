@@ -177,6 +177,8 @@ nulldistr.web <- do.call(rbind, websplit)
 ?permatfull
 testing <- web.matrices[[1]]
 
+# Test the permatfull function ----------------------------
+
 permuted2 <- permatfull(testing, fixedmar = "both", mtype = "prab", times = 1000)
 plot(permuted)
 
@@ -192,23 +194,7 @@ points(quant[1,], col = "blue")
 points(quant[2,], col = "blue")
 points(tes, col = "red")
 
-## Write a function to use on a list of matrices
-web_permutation <- function(webmatrices, fixedmar, times){
-  require(vegan)
-  if (!is.list(webmatrices)){
-    webmatrices <- list(webmatrices)
-    warning("not a list")
-  }
-  len <- length(webmatrices)
-  p.motif <- list()
-  for (i in 1:len){
-    permuted <- permatfull(webmatrices[[i]], fixedmar = fixedmar, mtype = "prab", times = times)
-    permuted.graphs <- lapply(permuted$perm, graph.adjacency)
-    p.motif[[i]] <- motif_counter(permuted.graphs, webs = as.character(1:times))
-  }
-  return(p.motif)
-}
-
+### Applying permutation methods -----------------------------------------
 
 p.means <- lapply(permutes, FUN = function(x){colMeans(x[,2:14])})
 pmeanmat <- matrix(unlist(p.means), ncol = 13, nrow = 50, byrow = T)
@@ -219,7 +205,7 @@ zscor <- (mot.mat - pmeanmat) / psdmat
 znorm <- zscor/colSums(zscor^2, na.rm = T)
 boxplot(znorm)
 
-## Calculate permuted webs and confidence intervals
+## Calculate permuted webs and confidence intervals ---------
 system.time(
   permutes <- web_permutation(web.matrices, fixedmar = "both", times = 1000)
 )

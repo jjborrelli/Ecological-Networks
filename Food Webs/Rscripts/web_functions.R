@@ -227,3 +227,26 @@ test_stability <- function(matrices, rep){
   qss <- lapply(eigens, function(x){sum(x < 0) / rep})
   return(qss)
 }
+
+
+## Write a function to use on a list of matrices for permutation testing
+web_permutation <- function(webmatrices, fixedmar, times){
+  #Input list of adjacency matrices - webmatrices
+  #Input whether to fix rows, columns, or both - fixedmar
+  #Input number of permuted matrices to generate
+  require(vegan)
+  if (!is.list(webmatrices)){
+    webmatrices <- list(webmatrices)
+    warning("not a list")
+  }
+  len <- length(webmatrices)
+  p.motif <- list()
+  for (i in 1:len){
+    permuted <- permatfull(webmatrices[[i]], fixedmar = fixedmar, mtype = "prab", times = times)
+    permuted.graphs <- lapply(permuted$perm, graph.adjacency)
+    p.motif[[i]] <- motif_counter(permuted.graphs, webs = as.character(1:times))
+  }
+  
+  return(p.motif)
+  #Output is a dataframe of motif frequencies 
+}
