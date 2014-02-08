@@ -224,4 +224,4 @@ system.time(
   permutes.col <- web_permutation(web.matrices, fixedmar = "columns", times = 1000)
 )
 
-permint.col <- lapply(permutes.col, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
+permint.col <- sapply(permutes.col, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
