@@ -212,6 +212,7 @@ system.time(
 
 permint.both<- sapply(permutes, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
 #write.csv(permint.both, file = "Tables/permutedCI_both.csv")
+perm.both <- read.csv("Tables/permutedCI_both.csv")
 
 system.time(
   permutes.row <- web_permutation(web.matrices, fixedmar = "rows", times = 1000)
@@ -219,10 +220,31 @@ system.time(
 
 permint.row <- sapply(permutes.row, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
 #write.csv(permint.row, file = "Tables/permutedCI_row.csv")
+perm.row <- read.csv("Tables/permutedCI_row.csv")
 
 system.time(
   permutes.col <- web_permutation(web.matrices, fixedmar = "columns", times = 1000)
 )
+par(mfrow = c(4,2), mar = c(.1, .1, .1, .1))
+for(i in 1:8){
+  boxplot(permutes.col[[i]][2:14], ylim = c(0, 1500), main = NA, xlab = NA, ylab = NA)
+  points(as.numeric(motif.df[i,3:15]), pch = 16, col = "blue")
+}
+
 
 permint.col <- sapply(permutes.col, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
 #write.csv(permint.col, file = "Tables/permutedCI_col.csv")
+perm.col <- read.csv("Tables/permutedCI_col.csv")
+
+
+mots <- motif.df[,3:15]
+motmeans <- colMeans(mots)
+points(1:13, motmeans, col = "blue", pch = 20, ylim = c(0, 8000))
+
+odds <- seq(1, 25, 2)
+evens <- seq(2, 26, 2)
+
+both.means.low <- rowMeans(perm.both[evens, 2:50])
+both.means.high <- rowMeans(perm.both[odds, 2:50])
+points(both.means.low, col = "red", pch = 16, typ = "o", lty = 2)
+points(both.means.high, col = "red", pch = 16, typ = "o", lty = 2)
