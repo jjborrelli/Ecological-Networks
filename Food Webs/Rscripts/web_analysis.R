@@ -6,9 +6,6 @@ library(devtools)
 library(vegan)
 
 ### Load functions       --------------------------------------------------
-setwd("~/Desktop/GitHub/Ecological-Networks/Food Webs")
-
-### Load functions       --------------------------------------------------
 
 url <- "https://raw.github.com/jjborrelli/Ecological-Networks/master/Food%20Webs/Rscripts/web_functions.R"
 source_url(url)
@@ -19,14 +16,17 @@ web.graphs <- inputs$graph.list
 web.matrices <- inputs$adjacency.list
 webnames <- inputs$webnames
 
+### Set Working Directory     --------------------------------------------------
+setwd("~/Desktop/GitHub/Ecological-Networks/Food Webs")
+
 ### Calculate common food web indices/statistics  ----------------------------
-fw.indices <- get_fw_indices(web.matrices, web.graphs, webnames)
-fw.indices[1:2,]
+#fw.indices <- get_fw_indices(web.matrices, web.graphs, webnames)
+#fw.indices[1:2,]
 #write.csv(fw.indices, file = "Tables/FWindices.csv")
 fw.indices <- read.csv("Tables/FWindices.csv")
 
 # Calculate node properties of each food web  ------------------------------
-node.props <- get_node_properties(web.matrices, webnames)
+#node.props <- get_node_properties(web.matrices, webnames)
 
 # Save node.props as a csv files
 #write.csv(node.props, file = "Tables/NODEproperties.csv")
@@ -210,18 +210,19 @@ system.time(
   permutes <- web_permutation(web.matrices, fixedmar = "both", times = 1000)
 )
 
-permint.both<- lapply(permutes, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
-
+permint.both<- sapply(permutes, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
+#write.csv(permint.both, file = "Tables/permutedCI_both.csv")
 
 system.time(
   permutes.row <- web_permutation(web.matrices, fixedmar = "rows", times = 1000)
 )
 
-permint.row <- lapply(permutes.row, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
-
+permint.row <- sapply(permutes.row, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
+#write.csv(permint.row, file = "Tables/permutedCI_row.csv")
 
 system.time(
   permutes.col <- web_permutation(web.matrices, fixedmar = "columns", times = 1000)
 )
 
 permint.col <- sapply(permutes.col, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
+#write.csv(permint.col, file = "Tables/permutedCI_col.csv")
