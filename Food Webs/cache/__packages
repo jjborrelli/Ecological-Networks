@@ -1,0 +1,11 @@
+base
+devtools
+ggplot2
+igraph
+knitr
+lattice
+MASS
+NetIndices
+permute
+reshape2
+vegan
