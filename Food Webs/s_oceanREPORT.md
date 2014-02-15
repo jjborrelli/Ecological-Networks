@@ -75,15 +75,19 @@ web.props <- data.frame(N = gind$N, L = gind$Ltot, LD = gind$LD, C = gind$C,
 
 
 ```
-##      N     L    LD        C D AvgPath ClCoef Loops  Bas   Top   Int
-## 1 1095 10395 9.493 0.008677 6   2.114 0.1941    30 15.8 69.68 14.52
+     N     L    LD        C D AvgPath ClCoef Loops  Bas   Top   Int
+1 1095 10395 9.493 0.008677 6   2.114 0.1941    30 15.8 69.68 14.52
 ```
 
 
+There are a total of 1095 species with 10395 interactions among them. The longest chain described in this food web is 6 but the average chain is 
+2.1144.  
 
 
 
-Plot the distribution of trophic levels
+  
+The short average path length in the food web is made clearer by looking at the distribution of trophic positions in the Southern Ocean Food Web.  
+
 
 ```r
 qplot(tind$TL, binwidth = 0.25, geom = "histogram", xlab = "Trophic Position", 
@@ -92,6 +96,12 @@ qplot(tind$TL, binwidth = 0.25, geom = "histogram", xlab = "Trophic Position",
 
 ![plot of chunk TLplot](figure/TLplot.png) 
 
+
+There is a tall bar at trophic level 1 and 2 representing plants and herbivores. There is a single organism, _Chionodraco hamatus_, with a trophic level between 1 and 2, suggesting that it consumes both plant and animals (a true omnivore). I am unconvinced, however, that the dataset includes a fully sampled food web and that some of those organisms described as basal are not plants, but are crustaceans, or other small organisms.   
+
+  
+Most of the species in the food web are "top" predators with 70% of sampled species having no predators themselves. Plants ("basal species") make up 
+16% of the web, and the remaining 15% are "intermediate". The disproportionately large proportion of "top" species is unusual compared to other empirically described food webs and may be the result of sampling methods. The connectance of the Southern Ocean Food Web is relatively low at 0.0087, but that is expected with such a large number of species.  
 
 
 
@@ -132,6 +142,7 @@ par(mfrow = c(114, 2), mar = c(0.01, 0.01, 0.01, 0.01))
 for (i in 1:228) {
     plot.igraph(location.g[[i]], layout = layout.circle, edge.arrow.size = 0.5, 
         vertex.label = NA, vertex.size = 5)
+    text(0, 0, label = i, cex = 2)
 }
 ```
 
