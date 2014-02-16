@@ -1,7 +1,7 @@
 The Southern Ocean Food Web
 ========================================================
 ```{r echo = F}
-opts_chunk$set(message = F, comment = NA)
+opts_chunk$set(message = F, comment = NA, fig.width = 7, fig.height = 7)
 ```
 
 
@@ -31,7 +31,7 @@ Load in the data
 s.ocean <- read.csv("~/Downloads/diet.csv")
 ```
 
-Looking at all interactions
+## Whole Southern Ocean
 
 ```{r}
 el.df <- data.frame(pred = s.ocean$PREDATOR_NAME, prey = s.ocean$PREY_NAME)
@@ -41,14 +41,35 @@ SOgraph <- graph.edgelist(unique(as.matrix(el.df[,1:2])))
 SOadjacency <- get.adjacency(SOgraph, sparse = F)
 ```
 
-Get whole web and node properties
+First take a quick look at what the food web looks like. Here I plot the web by trophic level by setting the layout (code shown below). Nodes are plotted with trophic position along the y-axis and plotted along the x-axis according to a random uniform distribution (`runif(x, 0, 1)`).  
+
+```{r unseenCODE, cache = T, echo = F}
+gind <- GenInd(SOadjacency)
+tind <- TrophInd(SOadjacency)
+```
+
+```{r wholeFW}
+par(mar = c(0,0,0,0))
+layouts <- matrix(c(runif(gind$N), tind$TL), ncol = 2)
+plot.igraph(SOgraph, layout = layouts, vertex.label = NA, edge.arrow.size = .5, 
+            vertex.size = 1)
+```
+
+The plot of the web is not very helpful because there are so many species and far too many interactions. So looking at some of the whole web statistical properties and node properties may be more useful than just plotting the web.  
+
+The `NetIndices` and `igraph` packages have functions to calculate a number of commonly used food web indices. The function `GenInd` from the `NetIndices` library easily calculates the number of nodes ($N$), total number of links ($L$), link density ($\frac{L}{N} = LD$), and connectance (along with some other indices that are not relevant to this dataset). Connectance in this case is calculated as: $$C = \frac{L}{N*(N-1)}$$  
+  
+The `diameter` is the single longest path between two nodes. The `average.path.length` is the mean number of links between any two nodes in the web. The clustering coefficient (or `transitivity`) is the probability that the nearest neighbors of a given vertex are themselves connected. A high clustering coefficient is an indication that a network has "small world" properties. The sum of the diagonal elements of the adjacency matrix gives the number of species that are cannibalistic, with links that loop back to themselves.   
+  
+Species in a food web may be either basal, intermediate, or top. These positions may be determined simply by examining the degree of each node. The number of links pointing towards a node is its in-degree and the number of links pointing away from a node is the out-degree. In-degree is therefore a measure of how many species the node of interest preys upon (generality) while out-degree is the number of predators a given node has (vulnerability). Basal nodes will have an in-degree of 0, and likewise top species will have an out-degree of 0. Once the number of basal and top species are found, the number of intermediate species is simply the remainder. 
+
 
 ```{r webProps, cache = T}
 gind <- GenInd(SOadjacency)
 diam <- diameter(SOgraph)
 avpath <- average.path.length(SOgraph)
 cluster <- transitivity(SOgraph)
-loops <- sum(diag(SOadjacency))
+cannibals <- sum(diag(SOadjacency))
 
 degrees <- degree(SOgraph, mode = "all")
 indegrees <- degree(SOgraph, mode = "in")
@@ -61,7 +82,7 @@ top <- (numTop/gind$N) * 100
 int <- ((gind$N - (numBas + numTop))/gind$N) * 100
 
 web.props <- data.frame(N = gind$N, L = gind$Ltot, LD = gind$LD, C = gind$C, D = diam,
-           AvgPath = avpath, ClCoef = cluster, Loops = loops, Bas = basal, Top = top, Int = int)
+           AvgPath = avpath, ClCoef = cluster, Can = cannibals, Bas = basal, Top = top, Int = int)
 ```
 ```{r echo = F}
 print(web.props)
@@ -76,7 +97,7 @@ tind <- TrophInd(SOadjacency)
   
 The short average path length in the food web is made clearer by looking at the distribution of trophic positions in the Southern Ocean Food Web.  
 
-```{r TLplot, fig.width = 6, fig.height = 6}
+```{r TLplot}
 qplot(tind$TL, binwidth = .25, geom = "histogram", 
       xlab = "Trophic Position", ylab = "Frequency")
 ```
@@ -87,17 +108,30 @@ There is a tall bar at trophic level 1 and 2 representing plants and herbivores.
 Most of the species in the food web are "top" predators with `r round(web.props$Top)`% of sampled species having no predators themselves. Plants ("basal species") make up 
 `r round(web.props$Bas)`% of the web, and the remaining `r round(web.props$Int)`% are "intermediate". The disproportionately large proportion of "top" species is unusual compared to other empirically described food webs and may be the result of sampling methods. The connectance of the Southern Ocean Food Web is relatively low at `r web.props$C`, but that is expected with such a large number of species.  
 
+The degree distribution of a food web is often described as being power-law distributed, with most nodes having few links, and few nodes having many links. The degree distribution may be plotted as a histogram. Rather than fitting a power law to the distribution I have fit a lognormal distribution to the data, as it appears to be the better fit. In the following plot I have included a line fit to a lognormal (blue) and power law (green) distributions. The lognormal distribution appears to be a better fit to the degree distribution.  
+  
 
-```{r fig.width = 10, fig.height = 10}
-par(mar = c(0,0,0,0))
-layouts <- matrix(c(runif(gind$N), tind$TL), ncol = 2)
-plot.igraph(SOgraph, layout = layouts, vertex.label = NA, edge.arrow.size = .5, 
-            vertex.size = 1)
+```{r degreeDIST, warning = F}
+degdisfit <- fitdistr(degrees, "lognormal")
+degdispow <- power.law.fit(degrees, force.continuous = T)
+
+dd <- ggplot(data.frame(degrees = degrees), aes(x = degrees))
+dd <- dd + geom_histogram(aes(y=..density..), binwidth = 5, colour = "black", fill = "white")
+
+sequ <- seq(1, 300, .25)
+
+dd <- dd + geom_line(aes(x = sequ[1:1095],
+                         y = dlnorm(sequ[1:1095], degdisfit[[1]][1], degdisfit[[1]][2])),
+                     colour = "blue")
+dd <- dd + geom_line(aes(x = sequ[1:1095], y = 20 * sequ[1:1095] ^ -degdispow$alpha, colour = "green"))
+dd + scale_y_continuous(limits = c(0, 0.12)) + theme(legend.position = "none")
 ```
 
 
+-----------------------------------------------------------
+## By location
 
-By location
+The following code splits up the dataframe by the location column. The resulting 228 graph objects get stored in `location.g`. _NOTE: the first location is 'blank' `" "` so I assume that it means that there are some rows without a location_  
 
 ```{r}
 m <- split(s.ocean, f = s.ocean$LOCATION)  
@@ -112,7 +146,7 @@ for (i in 1:length(levels(s.ocean$LOCATION))){
 }
 ```
 
-Plot webs by location
+Plot webs by location, labels `1:228` correspond to `levels(s.ocean$LOCATION)`:
 
 ```{r fig.width = 10, fig.height = 200}
 par(mfrow = c(114, 2), mar = c(.01,.01,.01,.01))
@@ -123,8 +157,44 @@ for (i in 1:228){
 }
 ```
 
+```{r locationWEBPROPS, cache = T}
+web.props1 <- data.frame()
+for (i in 1:228){
+  gind <- GenInd(get.adjacency(location.g[[i]], sparse = F))
+  diam <- diameter(location.g[[i]])
+  avpath <- average.path.length(location.g[[i]])
+  cluster <- transitivity(location.g[[i]])
+  cannibals <- sum(diag(get.adjacency(location.g[[i]], sparse = F)))
 
-By year
+  degrees <- degree(location.g[[i]], mode = "all")
+  indegrees <- degree(location.g[[i]], mode = "in")
+  outdegrees <- degree(location.g[[i]], mode = "out")
+
+  numBas <- length(indegrees[which(indegrees == 0)])
+  numTop <- length(outdegrees[which(outdegrees == 0)])
+  basal <- (numBas/gind$N) * 100
+  top <- (numTop/gind$N) * 100
+  int <- ((gind$N - (numBas + numTop))/gind$N) * 100
+
+  web.props <- data.frame(N = gind$N, L = gind$Ltot, LD = gind$LD, C = gind$C, D = diam,
+                          AvgPath = avpath, ClCoef = cluster, Can = cannibals, Bas = basal, 
+                          Top = top, Int = int)
+  web.props1 <- rbind(web.props1, web.props)
+}
+
+print(web.props1)
+```
+
+```{r}
+ggplot(web.props1) + geom_histogram(aes(x = N), binwidth = 5)
+```
+
+```{r}
+ggplot(web.props1) + geom_point(aes(x = N, y = C))
+```
+
+---------------------------------------------------------------
+## By year
 
 ```{r}
 so.ode <- as.character(s.ocean$OBSERVATION_DATE_END)
