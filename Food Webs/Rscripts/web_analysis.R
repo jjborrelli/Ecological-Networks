@@ -23,14 +23,14 @@ setwd("~/Desktop/GitHub/Ecological-Networks/Food Webs")
 #fw.indices <- get_fw_indices(web.matrices, web.graphs, webnames)
 #fw.indices[1:2,]
 #write.csv(fw.indices, file = "Tables/FWindices.csv")
-fw.indices <- read.csv("Tables/FWindices.csv")
+fw.indices <- read.csv("Tables/FWindices.csv", row.names = 1)
 
 # Calculate node properties of each food web  ------------------------------
 #node.props <- get_node_properties(web.matrices, webnames)
 
 # Save node.props as a csv files
 #write.csv(node.props, file = "Tables/NODEproperties.csv")
-node.props <- read.csv("Tables/NODEproperties.csv")
+node.props <- read.csv("Tables/NODEproperties.csv", row.names = 1)
 
 # Create subset of nodes that are herbivores or higher in trophic position
 consumers <- which(round(node.props$TL, 6) >= 2)
@@ -93,10 +93,13 @@ plot(predict(pca.fw)[,1:2])
 motif.df <- motif_counter(edge.graphs, webnames)
 
 #write.csv(motif.df, file = "Tables/motifCOUNTS.csv")
-motif.df <- read.table("Tables/motifCOUNTS.csv", header = T, sep = ",")
+motif.df <- read.table("Tables/motifCOUNTS.csv", header = T, sep = ",", row.names = 1)
 
-motif.means <- apply(motif.df[,3:15], 2, mean)
-motif.sd <- apply(motif.df, 2, sd)
+ggplot(melt(motif.df), aes(x = variable, y = value)) + geom_boxplot() + 
+  facet_wrap( ~ web) #, nrow = 5, ncol = 5)
+
+motif.means <- apply(motif.df[,2:14], 2, mean)
+motif.sd <- apply(motif.df[,2:14], 2, sd)
 
 motif.df.mc <- motif.df - motif.means         # Mean centered dataframe
 
