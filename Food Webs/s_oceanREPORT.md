@@ -61,7 +61,7 @@ plot.igraph(SOgraph, layout = layouts, vertex.label = NA, edge.arrow.size = 0.5,
     vertex.size = 1)
 ```
 
-![plot of chunk wholeFW](figure/wholeFW.png) 
+![The Southern Ocean food web](figure/wholeFW.png) 
 
 
 The plot of the web is not very helpful because there are so many species and far too many interactions. So looking at some of the whole web statistical properties and node properties may be more useful than just plotting the web.  
@@ -117,7 +117,7 @@ qplot(tind$TL, binwidth = 0.25, geom = "histogram", xlab = "Trophic Position",
     ylab = "Frequency")
 ```
 
-![plot of chunk TLplot](figure/TLplot.png) 
+![Histogram of trophic positions](figure/TLplot.png) 
 
 
 There is a tall bar at trophic level 1 and 2 representing plants and herbivores. There is a single organism, _Chionodraco hamatus_, with a trophic level between 1 and 2, suggesting that it consumes both plant and animals (a true omnivore). I am unconvinced, however, that the dataset includes a fully sampled food web and that some of those organisms described as basal are not plants, but are crustaceans, or other small organisms.   
@@ -147,7 +147,7 @@ dd <- dd + geom_line(aes(x = sequ[1:1095], y = 20 * sequ[1:1095]^-degdispow$alph
 dd + scale_y_continuous(limits = c(0, 0.12)) + theme(legend.position = "none")
 ```
 
-![plot of chunk degreeDIST](figure/degreeDIST.png) 
+![Degree distribution with fitted power law and lognormal functions](figure/degreeDIST.png) 
 
 
 
@@ -184,7 +184,7 @@ for (i in 1:228) {
 }
 ```
 
-![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
+![plot of chunk locationPLOTS](figure/locationPLOTS.png) 
 
 
 It is readily apparent from the food web plots that some sampling locations
@@ -462,7 +462,7 @@ Because there are so many different locations (228) the dataframe of web propert
 ggplot(web.props1) + geom_histogram(aes(x = N), binwidth = 5)
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
+![Histogram of number of species per location](figure/unnamed-chunk-2.png) 
 
 
 A plot of connectance (_C_) against size (_N_) shows the expected relationship of a decline in connectance with size. It is also evident that most of the food webs in this study have a connectance less than 0.1. A number of webs have a connectance of 0.5, but those represent the locations with webs that are only two species with one interaction.  
@@ -472,7 +472,7 @@ A plot of connectance (_C_) against size (_N_) shows the expected relationship o
 ggplot(web.props1) + geom_point(aes(x = N, y = C))
 ```
 
-![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
+![Plot connectance agains size](figure/unnamed-chunk-3.png) 
 
 
 
@@ -484,7 +484,7 @@ colnames(nn) <- as.character(1:228)
 barplot(nn, col = c("blue", "yellow", "darkgreen"), xlab = "Web", ylab = "Percent")
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
+![Proportions basal, intermediate, top](figure/unnamed-chunk-4.png) 
 
 
 ---------------------------------------------------------------  
@@ -505,7 +505,7 @@ m2 <- split(s.ocean2, f = s.ocean2$year)
 year.g <- list()
 for (i in 1:length(levels(s.ocean2$year))) {
     
-    el.df <- data.frame(pred = m[[i]]$PREDATOR_NAME, prey = m[[i]]$PREY_NAME)
+    el.df <- data.frame(pred = m2[[i]]$PREDATOR_NAME, prey = m2[[i]]$PREY_NAME)
     
     g <- graph.edgelist(unique(as.matrix(el.df[, 1:2])))
     
@@ -525,5 +525,85 @@ for (i in 1:45) {
 }
 ```
 
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
+![plot of chunk yearPLOT](figure/yearPLOT.png) 
+
+
+
+```r
+web.props2 <- data.frame()
+for (i in 1:45) {
+    gind <- GenInd(get.adjacency(year.g[[i]], sparse = F))
+    diam <- diameter(year.g[[i]])
+    avpath <- average.path.length(year.g[[i]])
+    cluster <- transitivity(year.g[[i]])
+    cannibals <- sum(diag(get.adjacency(year.g[[i]], sparse = F)))
+    
+    degrees <- degree(year.g[[i]], mode = "all")
+    indegrees <- degree(year.g[[i]], mode = "in")
+    outdegrees <- degree(year.g[[i]], mode = "out")
+    
+    numBas <- length(indegrees[which(indegrees == 0)])
+    numTop <- length(outdegrees[which(outdegrees == 0)])
+    basal <- (numBas/gind$N) * 100
+    top <- (numTop/gind$N) * 100
+    int <- ((gind$N - (numBas + numTop))/gind$N) * 100
+    
+    web.props <- data.frame(N = gind$N, L = gind$Ltot, LD = gind$LD, C = gind$C, 
+        D = diam, AvgPath = avpath, ClCoef = cluster, Can = cannibals, Bas = basal, 
+        Top = top, Int = int)
+    web.props2 <- rbind(web.props2, web.props)
+}
+
+print(web.props2)
+```
+
+```
+     N    L      LD        C D AvgPath    ClCoef Can    Bas   Top     Int
+1    8   11  1.3750 0.196429 1   1.000 0.0000000   0 25.000 75.00  0.0000
+2    8   16  2.0000 0.285714 1   1.000 0.0000000   0 50.000 50.00  0.0000
+3   11   28  2.5455 0.254545 1   1.000 0.0000000   0 36.364 63.64  0.0000
+4    8    7  0.8750 0.125000 1   1.000 0.0000000   0 12.500 87.50  0.0000
+5   46   88  1.9130 0.042512 2   1.093 0.0000000   0 36.957 58.70  4.3478
+6   12   20  1.6667 0.151515 1   1.000 0.0000000   0 16.667 83.33  0.0000
+7   26   24  0.9231 0.036923 1   1.000 0.0000000   0  7.692 92.31  0.0000
+8   10   16  1.6000 0.177778 1   1.000 0.0000000   0 20.000 80.00  0.0000
+9    9    9  1.0000 0.125000 1   1.000 0.0000000   0 33.333 66.67  0.0000
+10  49   58  1.1837 0.024660 1   1.000 0.0000000   0  6.122 93.88  0.0000
+11  70   83  1.1857 0.017184 1   1.000 0.0000000   0  4.286 95.71  0.0000
+12  28   38  1.3571 0.050265 1   1.000 0.0000000   0 14.286 85.71  0.0000
+13  31   34  1.0968 0.036559 1   1.000 0.0000000   0 16.129 83.87  0.0000
+14  95  157  1.6526 0.017581 1   1.000 0.0000000   0 14.737 85.26  0.0000
+15  90  299  3.3222 0.037328 2   1.010 0.2691166   4 14.444 81.11  4.4444
+16  94  139  1.4787 0.015900 2   1.042 0.0115607   1 11.702 86.17  2.1277
+17 208  433  2.0817 0.010057 2   1.207 0.0101225   1 12.981 82.69  4.3269
+18 299 4257 14.2375 0.047777 3   1.420 0.3121464  13 31.104 60.54  8.3612
+19 109  163  1.4954 0.013846 2   1.190 0.0085511   1  9.174 87.16  3.6697
+20 125  207  1.6560 0.013355 2   1.205 0.0144695   1 14.400 82.40  3.2000
+21 120  219  1.8250 0.015336 1   1.000 0.0000000   0 10.833 89.17  0.0000
+22 104  202  1.9423 0.018857 2   1.151 0.0000000   0  8.654 90.38  0.9615
+23 155  825  5.3226 0.034562 3   1.119 0.0086548   0 21.290 70.97  7.7419
+24  53   65  1.2264 0.023585 2   1.133 0.0164835   0 11.321 84.91  3.7736
+25 129  224  1.7364 0.013566 2   1.189 0.0024430   1  6.977 89.15  3.8760
+26 145  185  1.2759 0.008860 3   1.464 0.0132890   2  9.655 85.52  4.8276
+27 130  210  1.6154 0.012522 3   1.290 0.0186722   1 10.769 86.92  2.3077
+28 205 1230  6.0000 0.029412 4   1.336 0.0006669   1 14.634 81.95  3.4146
+29 215  878  4.0837 0.019083 3   1.421 0.0179806   0  9.767 86.98  3.2558
+30 213  382  1.7934 0.008460 3   1.799 0.0149495   1  5.164 90.61  4.2254
+31 189  530  2.8042 0.014916 4   1.656 0.1237898   5 12.698 80.95  6.3492
+32 205  422  2.0585 0.010091 3   1.099 0.0032805   1 11.707 85.37  2.9268
+33 181  298  1.6464 0.009147 3   1.107 0.0050220   0  9.392 88.95  1.6575
+34 183  599  3.2732 0.017985 3   1.290 0.0505352   1 10.929 78.69 10.3825
+35 222  464  2.0901 0.009457 2   1.241 0.0189959   1  6.306 92.34  1.3514
+36 161  296  1.8385 0.011491 3   1.317 0.0184049   1  6.832 89.44  3.7267
+37 135  209  1.5481 0.011553 3   1.256 0.0156018   1  5.926 91.85  2.2222
+38  60   87  1.4500 0.024576 3   1.442 0.0403769   1  6.667 88.33  5.0000
+39 121  312  2.5785 0.021488 3   1.539 0.0496710   2  9.917 80.99  9.0909
+40  57   69  1.2105 0.021617 2   1.374 0.0299700   2  1.754 94.74  3.5088
+41 183  269  1.4699 0.008077 3   1.708 0.0408666   3  3.279 93.44  3.2787
+42  63   62  0.9841 0.015873 1   1.000 0.0000000   0  1.587 98.41  0.0000
+43  82   93  1.1341 0.014002 1   1.000 0.0000000   0  7.317 92.68  0.0000
+44  71   78  1.0986 0.015694 1   1.000 0.0000000   0  4.225 95.77  0.0000
+45   3    2  0.6667 0.333333 1   1.000 0.0000000   0 33.333 66.67  0.0000
+```
+
 

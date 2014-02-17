@@ -1,13 +1,13 @@
 The Southern Ocean Food Web
 ========================================================
-```{r echo = F}
+```{r chunks, echo = F}
 opts_chunk$set(message = F, comment = NA, fig.width = 7, fig.height = 7)
 ```
 
 
 Load required libraries: 
 
-```{r}
+```{r loadLIB}
 require(igraph)
 require(NetIndices)
 require(reshape2)
@@ -18,7 +18,7 @@ require(vegan)
 
 Source code for functions to describe web properties
 
-```{r}
+```{r SOURCEcode}
 url <- "https://raw.github.com/jjborrelli/Ecological-Networks/master/Food%20Webs/Rscripts/web_functions.R"
 source_url(url)
 ```
@@ -26,14 +26,14 @@ source_url(url)
 
 Load in the data
 
-```{r}
+```{r readDATA}
 #s.ocean <- read.csv("http://esapubs.org/archive/ecol/E092/097/diet.csv")
 s.ocean <- read.csv("~/Downloads/diet.csv")
 ```
 
 ## Whole Southern Ocean
 
-```{r}
+```{r intoIGRAPH}
 el.df <- data.frame(pred = s.ocean$PREDATOR_NAME, prey = s.ocean$PREY_NAME)
   
 SOgraph <- graph.edgelist(unique(as.matrix(el.df[,1:2])))
@@ -48,7 +48,7 @@ gind <- GenInd(SOadjacency)
 tind <- TrophInd(SOadjacency)
 ```
 
-```{r wholeFW}
+```{r wholeFW, fig.cap = "The Southern Ocean food web"}
 par(mar = c(0,0,0,0))
 layouts <- matrix(c(runif(gind$N), tind$TL), ncol = 2)
 plot.igraph(SOgraph, layout = layouts, vertex.label = NA, edge.arrow.size = .5, 
@@ -97,7 +97,7 @@ tind <- TrophInd(SOadjacency)
   
 The short average path length in the food web is made clearer by looking at the distribution of trophic positions in the Southern Ocean Food Web.  
 
-```{r TLplot}
+```{r TLplot, fig.cap = "Histogram of trophic positions"}
 qplot(tind$TL, binwidth = .25, geom = "histogram", 
       xlab = "Trophic Position", ylab = "Frequency")
 ```
@@ -111,7 +111,7 @@ Most of the species in the food web are "top" predators with `r round(web.props$
 The degree distribution of a food web is often described as being power-law distributed, with most nodes having few links, and few nodes having many links. The degree distribution may be plotted as a histogram. Rather than fitting a power law to the distribution I have fit a lognormal distribution to the data, as it appears to be the better fit. In the following plot I have included a line fit to a lognormal (blue) and power law (green) distributions. The lognormal distribution appears to be a better fit to the degree distribution.  
   
 
-```{r degreeDIST, warning = F}
+```{r degreeDIST, warning = F, fig.cap = "Degree distribution with fitted power law and lognormal functions"}
 degdisfit <- fitdistr(degrees, "lognormal")
 degdispow <- power.law.fit(degrees, force.continuous = T)
 
@@ -134,7 +134,7 @@ dd + scale_y_continuous(limits = c(0, 0.12)) + theme(legend.position = "none")
 
 The following code splits up the dataframe by the location column. The resulting 228 graph objects get stored in `location.g`. _NOTE: the first location is a blank (`" "`) indicating that there are some rows without a location_  
 
-```{r}
+```{r locationSPLIT}
 m <- split(s.ocean, f = s.ocean$LOCATION)  
 location.g <- list()  
 for (i in 1:length(levels(s.ocean$LOCATION))){
@@ -149,7 +149,7 @@ for (i in 1:length(levels(s.ocean$LOCATION))){
 
 Plotting webs by location provides some idea about what trophic information was obtained from different sampling locations in the Southern Ocean; the labels `1:228` correspond to `levels(s.ocean$LOCATION)`:
 
-```{r fig.width = 10, fig.height = 200}
+```{r locationPLOTS, fig.width = 10, fig.height = 200}
 par(mfrow = c(114, 2), mar = c(.01,.01,.01,.01))
 for (i in 1:228){
   plot.igraph(location.g[[i]], layout = layout.circle, edge.arrow.size = .5, vertex.label = NA,
@@ -194,17 +194,17 @@ print(web.props1)
 
 Because there are so many different locations (`r length(levels(s.ocean$LOCATION))`) the dataframe of web properties becomes a bit unwieldy. Plotting the different indices is a useful way to examine some of the properties of the different locations' food webs. First, a histogram of the number of nodes (_N_) in each web shows that most of the webs invovle less than 50 species, but a few are greater than 150 species. 
 
-```{r}
+```{r, fig.cap = "Histogram of number of species per location"}
 ggplot(web.props1) + geom_histogram(aes(x = N), binwidth = 5)
 ```
 
 A plot of connectance (_C_) against size (_N_) shows the expected relationship of a decline in connectance with size. It is also evident that most of the food webs in this study have a connectance less than 0.1. A number of webs have a connectance of 0.5, but those represent the locations with webs that are only two species with one interaction.  
 
-```{r}
+```{r, fig.cap = "Plot connectance agains size"}
 ggplot(web.props1) + geom_point(aes(x = N, y = C))
 ```
 
-```{r fig.height = 8, fig.width = 11}
+```{r fig.height = 8, fig.width = 11, fig.cap = "Proportions basal, intermediate, top"}
 nn<- matrix(c(web.props1$Bas, web.props1$Int, web.props1$Top), nrow = 3, ncol = 228, byrow = T)
 colnames(nn) <- as.character(1:228)
 
@@ -214,7 +214,7 @@ barplot(nn, col = c("blue", "yellow", "darkgreen"), xlab = "Web", ylab = "Percen
 ---------------------------------------------------------------  
 ## By year
 
-```{r}
+```{r yearSPLIT}
 so.ode <- as.character(s.ocean$OBSERVATION_DATE_END)
 so.ode.split <- strsplit(so.ode, split = "/")
 
@@ -228,7 +228,7 @@ m2 <- split(s.ocean2, f = s.ocean2$year)
 year.g <- list()  
 for (i in 1:length(levels(s.ocean2$year))){
   
-  el.df <- data.frame(pred = m[[i]]$PREDATOR_NAME, prey = m[[i]]$PREY_NAME)
+  el.df <- data.frame(pred = m2[[i]]$PREDATOR_NAME, prey = m2[[i]]$PREY_NAME)
   
   g <- graph.edgelist(unique(as.matrix(el.df[,1:2])))
   
@@ -238,7 +238,7 @@ for (i in 1:length(levels(s.ocean2$year))){
 ```
 
 Plot webs by year
-```{r fig.width = 10, fig.height = 90}
+```{r yearPLOT, fig.width = 10, fig.height = 90}
 par(mfrow = c(23, 2), mar = c(.01,.01,.01,.01))
 for (i in 1:45){
   plot.igraph(year.g[[i]], layout = layout.circle, edge.arrow.size = .5, vertex.label = NA,
@@ -246,3 +246,32 @@ for (i in 1:45){
   text(0, 0, label = levels(s.ocean2$year)[i], cex = 2)
 }
 ```
+
+```{r yearWEBPROPS, cache  = TRUE}
+web.props2 <- data.frame()
+for (i in 1:45){
+  gind <- GenInd(get.adjacency(year.g[[i]], sparse = F))
+  diam <- diameter(year.g[[i]])
+  avpath <- average.path.length(year.g[[i]])
+  cluster <- transitivity(year.g[[i]])
+  cannibals <- sum(diag(get.adjacency(year.g[[i]], sparse = F)))
+
+  degrees <- degree(year.g[[i]], mode = "all")
+  indegrees <- degree(year.g[[i]], mode = "in")
+  outdegrees <- degree(year.g[[i]], mode = "out")
+
+  numBas <- length(indegrees[which(indegrees == 0)])
+  numTop <- length(outdegrees[which(outdegrees == 0)])
+  basal <- (numBas/gind$N) * 100
+  top <- (numTop/gind$N) * 100
+  int <- ((gind$N - (numBas + numTop))/gind$N) * 100
+
+  web.props <- data.frame(N = gind$N, L = gind$Ltot, LD = gind$LD, C = gind$C, D = diam,
+                          AvgPath = avpath, ClCoef = cluster, Can = cannibals, Bas = basal, 
+                          Top = top, Int = int)
+  web.props2 <- rbind(web.props2, web.props)
+}
+
+print(web.props2)
+```
+
