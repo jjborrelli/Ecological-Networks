@@ -151,10 +151,11 @@ dd + scale_y_continuous(limits = c(0, 0.12)) + theme(legend.position = "none")
 
 
 
------------------------------------------------------------
+-----------------------------------------------------------  
+
 ## By location
 
-The following code splits up the dataframe by the location column. The resulting 228 graph objects get stored in `location.g`. _NOTE: the first location is 'blank' `" "` so I assume that it means that there are some rows without a location_  
+The following code splits up the dataframe by the location column. The resulting 228 graph objects get stored in `location.g`. _NOTE: the first location is a blank (`" "`) indicating that there are some rows without a location_  
 
 
 ```r
@@ -171,7 +172,7 @@ for (i in 1:length(levels(s.ocean$LOCATION))) {
 ```
 
 
-Plot webs by location, labels `1:228` correspond to `levels(s.ocean$LOCATION)`:
+Plotting webs by location provides some idea about what trophic information was obtained from different sampling locations in the Southern Ocean; the labels `1:228` correspond to `levels(s.ocean$LOCATION)`:
 
 
 ```r
@@ -185,6 +186,12 @@ for (i in 1:228) {
 
 ![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
 
+
+It is readily apparent from the food web plots that some sampling locations
+(e.g., **Bay of Morbihan, Kerguelen Islands**; **Iles Crozets**; 
+**Seal Island**; etc.) included only a single predator with a portion of its prey. Others, like **Amanda Bay** and **Rampen**, included a single prey with some of its predators. A few locations, however, have enough species and interactions to be conisdered a near complete food web themselves (e.g., **Croker Passage**; **Scotia Sea, Weddell Sea**). Most webs have a small number of predators and prey and a few interactions.  
+  
+Like the whole food web properties calculated above, indices can be calculated for each of the location subwebs.  
 
 
 ```r
@@ -448,6 +455,8 @@ print(web.props1)
 ```
 
 
+Because there are so many different locations (228) the dataframe of web properties becomes a bit unwieldy. Plotting the different indices is a useful way to examine some of the properties of the different locations' food webs. First, a histogram of the number of nodes (_N_) in each web shows that most of the webs invovle less than 50 species, but a few are greater than 150 species. 
+
 
 ```r
 ggplot(web.props1) + geom_histogram(aes(x = N), binwidth = 5)
@@ -455,6 +464,8 @@ ggplot(web.props1) + geom_histogram(aes(x = N), binwidth = 5)
 
 ![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
 
+
+A plot of connectance (_C_) against size (_N_) shows the expected relationship of a decline in connectance with size. It is also evident that most of the food webs in this study have a connectance less than 0.1. A number of webs have a connectance of 0.5, but those represent the locations with webs that are only two species with one interaction.  
 
 
 ```r
@@ -464,7 +475,19 @@ ggplot(web.props1) + geom_point(aes(x = N, y = C))
 ![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
 
 
----------------------------------------------------------------
+
+```r
+nn <- matrix(c(web.props1$Bas, web.props1$Int, web.props1$Top), nrow = 3, ncol = 228, 
+    byrow = T)
+colnames(nn) <- as.character(1:228)
+
+barplot(nn, col = c("blue", "yellow", "darkgreen"), xlab = "Web", ylab = "Percent")
+```
+
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
+
+
+---------------------------------------------------------------  
 ## By year
 
 
@@ -502,5 +525,5 @@ for (i in 1:45) {
 }
 ```
 
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
 
