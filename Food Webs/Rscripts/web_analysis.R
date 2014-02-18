@@ -230,10 +230,30 @@ abline(h = 0, lty = 2)
 N <- fw.indices$N
 L <- fw.indices$Ltot
 
-erg <- list()
-for(i in 1:10000){
-  erg[[i]] <-  erdos.renyi.game(N[1], L[1], "gnm", directed = TRUE, loops = TRUE)
+list_erg <- function(n, l, times = 1000, loops = TRUE){
+  erg <- list()
+  for(i in 1:times){
+    erg[[i]] <-  erdos.renyi.game(n, l, "gnm", directed = TRUE, loops = loops)
+  } 
+  return(erg)
 }
+
+erg_counter <- function(N, L, times = 1000, loops = TRUE, webs = "NONE"){
+  if(!length(N) == length(L)){
+    stop("N and L vectors not of same length")
+  }
+  if(webs == "NONE"){
+    webs <- 1:times
+  }
+  
+  mot.ergs <- list()
+  for(fw in 1:length(N)){
+    ergs <- list_erg(N[fw], L[fw], times = times, loops = loops)
+    mot.ergs[[fw]] <- motif_counter(ergs, webs = webs)[,2:14]
+  }
+}
+
+testerg <- erg_counter(N, L)
 
 merg <- motif_counter(erg, webs = 1:100)[,2:14]
 cmerg <- colMeans(merg)
