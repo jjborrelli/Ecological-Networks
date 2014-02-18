@@ -94,108 +94,8 @@ motif.df <- motif_counter(edge.graphs, webnames)
 
 #write.csv(motif.df, file = "Tables/motifCOUNTS.csv")
 motif.df <- read.table("Tables/motifCOUNTS.csv", header = T, sep = ",", row.names = 1)
+sub.counts <- motif.df[,2:14]
 
-ggplot(melt(motif.df), aes(x = variable, y = value)) + geom_boxplot() + 
-  facet_wrap( ~ web) #, nrow = 5, ncol = 5)
-
-motif.means <- apply(motif.df[,2:14], 2, mean)
-motif.sd <- apply(motif.df[,2:14], 2, sd)
-
-motif.df.mc <- motif.df - motif.means         # Mean centered dataframe
-
-motif.quantiles <- apply(z.mat.norm, 2, quantile, probs = c(0.025, 0.975), na.rm = TRUE)
-
-# This function generates a list of lists of each of the graphs with rewired edges (preserving degree distribution)
-# It then loops through the list with the motif counter function created above
-# The resulting list of dataframes (n = sample) is compiled into one large dataframe of length 50n  
-
-# Here I am running the function on my 50 web list (web.graphs) with names = webnames
-# sample is the number of times I want to run the rewire function, iter is the number of rewiring iterations
-system.time(
-nulltest <- null_motifs(web.graphs, graph.names = webnames, sample = 1000, iter = 1000)
-)
-## This took 105 minutes, rep = 1500 
-## This took 22 minutes, rep = 1000
-
-nullmeans <- apply(nulltest[,2:14], 2, mean)
-nullsd <- apply(nulltest[,2:14], 2, sd)
-plot((motif.means - nullmeans) / nullsd, typ = "o", lty = 2, ylim = c(-.5, .5), xlim = c(1, 13))
-abline(h = 0)
-
-# Split giant dataframe (outputt of null_motifs) into a list with each list item its own web
-websplit <- split(nulltest, nulltest$web)
-# Calculate column means and standard deviations for each web
-null.web.means <- lapply(websplit, function(x){
-  y<-x[,2:14]
-  apply(y, 2, mean)})
-null.web.sd <- lapply(websplit, function(x){
-  y<-x[,2:14]
-  apply(y, 2, sd)})
-
-# Combine all means into a single matrix with each row a web, and each column a motif
-# Each value is the average of "sample" number of iterations
-nwm <- matrix(unlist(null.web.means), nrow = 50, ncol = 13, byrow = T)
-# Same for standard deviation
-nwsd <- matrix(unlist(null.web.sd), nrow = 50, ncol = 13, byrow = T)
-# Redefine the motif frequencies as a matrix
-mot.mat <- as.matrix(motif.df[,3:15])
-
-# Calculate the z-score as (freq - mean_rewired) / sd_rewired
-z.mat <- (mot.mat - nwm) / nwsd
-
-z.mat.norm <- z.mat / colSums(z.mat^2)
-
-# Boxplot is probably the nicest way to visualize the distributions of z.scores for each motif
-par(mfrow = c(1,2))
-
-zmat.df <- melt(as.data.frame(z.mat))
-mot.pro <- ggplot(zmat.df, aes(x = variable, y = value)) + geom_boxplot()
-mot.pro + geom_hline(aes(yintercept = 0))
-ggsave(filename = "motif_profile1.jpeg", height = 15, width = 15, units = "cm")
-
-zmatnorm.df <- melt(as.data.frame(z.mat.norm))
-mot.pro.norm <- ggplot(zmatnorm.df, aes(x = variable, y = value), na.rm = T) + geom_boxplot()
-mot.pro.norm <- mot.pro.norm + geom_hline(aes(yintercept = 0)) 
-mot.pro.norm <- mot.pro.norm + geom_point(aes(x = 1:13, y = motif.quantiles[1,]), color = "blue")
-mot.pro.norm + geom_point(aes(x = 1:13, y = motif.quantiles[2,]), color = "blue")
-#ggsave(filename = "motif_profile2.jpeg", height = 15, width = 15, units = "cm")
-
-###########
-## Allesina and Pascual 2008 data
-apwebs <- c("benguela", "bridgebrook", "broom", "chesapeake", "littlerock", "reef", "shelf", "stmarks", "stmartin")
-ap.motifs <- z.mat[c(3, 6, 8, 13, 31, 38, 39, 41,42),]
-rownames(ap.motifs) <- apwebs
-ap.qss <- matrix(c(.79, .86, .96, .97, .80, .75, .72, .89, .87), ncol = 1)
-ap.motif.qss <- as.data.frame(cbind(ap.motifs, ap.qss))
-
-fittest <- lm(ap.qss ~ s1 + s2 + s3 + s4 + s5, data = ap.motif.qss)
-summary(fittest)
-
-nulldistr.web <- do.call(rbind, websplit)
-
-
-###  Trying different null models ---------------------------------
-
-# Playing with the permatfull function
-?permatfull
-testing <- web.matrices[[1]]
-
-# Test the permatfull function ----------------------------
-
-permuted2 <- permatfull(testing, fixedmar = "both", mtype = "prab", times = 1000)
-plot(permuted)
-
-permuted.graphs2 <- lapply(permuted2$perm, graph.adjacency)
-
-p.motif2 <- motif_counter(permuted.graphs2, webs = as.character(1:1000))
-pmeans <- colMeans(p.motif2[2:14])
-boxplot(p.motif2[2:14])
-quant <- apply(p.motif2[2:14], 2, quantile, probs = c(0.975, 0.025))
-
-plot(pmeans, ylim = c(-1, 1500))
-points(quant[1,], col = "blue")
-points(quant[2,], col = "blue")
-points(tes, col = "red")
 
 ### Applying permutation methods -----------------------------------------
 
@@ -209,45 +109,120 @@ znorm <- zscor/colSums(zscor^2, na.rm = T)
 boxplot(znorm)
 
 ## Calculate permuted webs and confidence intervals ---------
+
+### Fixed row and column margins ----------------------------
 system.time(
   permutes <- web_permutation(web.matrices, fixedmar = "both", times = 1000)
 )
 
 permint.both<- sapply(permutes, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
 #write.csv(permint.both, file = "Tables/permutedCI_both.csv")
-perm.both <- read.csv("Tables/permutedCI_both.csv")
+perm.both <- read.csv("Tables/permutedCI_both.csv", row.names = 1)
 
+upper.quant.both <- t(perm.both[odds,])
+lower.quant.both <- t(perm.both[evens,])
+
+colSums(motif.df[,2:14] >= upper.quant.both) / 50
+colSums(motif.df[,2:14] <= lower.quant.both) / 50
+
+## 
+## Calculate mean and sd for permuted matrices
+pb.means <- t(sapply(permutes, FUN = function(x){apply(x[,2:14], 2, mean)}))
+pb.sd <- t(sapply(permutes, FUN = function(x){apply(x[,2:14], 2, sd)}))
+##
+## Calculate z scores
+z.b <- (sub.counts - pb.means) / pb.sd 
+
+##
+## Calculate standard error
+se.zb <- apply(z.b, 2, FUN = function(x){sqrt(var(x[!is.na(x)])/length(x))})
+z.bmean <- colMeans(z.b, na.rm = T)
+
+z.high.b <- z.bmean + se.zb
+z.low.b <- z.bmean - se.zb
+
+##
+## Plot effect sizes 
+plot(z.bmean, ylim = c(-5, 15))
+points(z.high.b, col = "blue", pch = 16)
+points(z.low.b, col = "blue", pch = 16)
+abline(h = 0, lty = 2)
+
+### Fixed row margins ---------------------------------------
 system.time(
   permutes.row <- web_permutation(web.matrices, fixedmar = "rows", times = 1000)
 )
 
 permint.row <- sapply(permutes.row, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
 #write.csv(permint.row, file = "Tables/permutedCI_row.csv")
-perm.row <- read.csv("Tables/permutedCI_row.csv")
+perm.row <- read.csv("Tables/permutedCI_row.csv", row.names = 1)
 
+upper.quant.row <- t(perm.row[odds,])
+lower.quant.row <- t(perm.row[evens,])
+
+colSums(motif.df[,2:14] >= upper.quant.row) / 50
+colSums(motif.df[,2:14] <= lower.quant.row) / 50
+
+## 
+## Calculate mean and sd for permuted matrices
+pr.means <- t(sapply(permutes.row, FUN = function(x){apply(x[,2:14], 2, mean)}))
+pr.sd <- t(sapply(permutes.row, FUN = function(x){apply(x[,2:14], 2, sd)}))
+##
+## Calculate z scores
+z.r <- (sub.counts - pr.means) / pr.sd 
+
+##
+## Calculate standard error
+se.zr <- apply(z.r, 2, FUN = function(x){sqrt(var(x[!is.na(x)])/length(x))})
+z.rmean <- colMeans(z.r, na.rm = T)
+
+z.high.r <- z.rmean + se.zr
+z.low.r <- z.rmean - se.zr
+
+##
+## Plot effect sizes 
+plot(z.rmean, ylim = c(-10, 10))
+points(z.high.r, col = "blue", pch = 16)
+points(z.low.r, col = "blue", pch = 16)
+abline(h = 0, lty = 2)
+
+### Fixed column margins ------------------------------------
 system.time(
   permutes.col <- web_permutation(web.matrices, fixedmar = "columns", times = 1000)
 )
-par(mfrow = c(4,2), mar = c(.1, .1, .1, .1))
-for(i in 1:8){
-  boxplot(permutes.col[[i]][2:14], ylim = c(0, 1500), main = NA, xlab = NA, ylab = NA)
-  points(as.numeric(motif.df[i,3:15]), pch = 16, col = "blue")
-}
 
 
 permint.col <- sapply(permutes.col, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
 #write.csv(permint.col, file = "Tables/permutedCI_col.csv")
-perm.col <- read.csv("Tables/permutedCI_col.csv")
+perm.col <- read.csv("Tables/permutedCI_col.csv", row.names = 1)
+
+upper.quant.col <- t(perm.col[odds,])
+lower.quant.col <- t(perm.col[evens,])
+
+colSums(motif.df[,2:14] >= upper.quant.col) / 50
+colSums(motif.df[,2:14] <= lower.quant.col) / 50
+
+## 
+## Calculate mean and sd for permuted matrices
+pc.means <- t(sapply(permutes.col, FUN = function(x){apply(x[,2:14], 2, mean)}))
+pc.sd <- t(sapply(permutes.col, FUN = function(x){apply(x[,2:14], 2, sd)}))
+##
+## Calculate z scores
+z.c <- (sub.counts - pc.means) / pc.sd 
+
+##
+## Calculate standard error
+se.zc <- apply(z.c, 2, FUN = function(x){sqrt(var(x[!is.na(x)])/length(x))})
+z.cmean <- colMeans(z.c, na.rm = T)
+
+z.high.c <- z.cmean + se.zc
+z.low.c <- z.cmean - se.zc
+
+##
+## Plot effect sizes 
+plot(z.cmean, ylim = c(-10, 10))
+points(z.high.c, col = "blue", pch = 16)
+points(z.low.c, col = "blue", pch = 16)
+abline(h = 0, lty = 2)
 
 
-mots <- motif.df[,3:15]
-motmeans <- colMeans(mots)
-points(1:13, motmeans, col = "blue", pch = 20, ylim = c(0, 8000))
-
-odds <- seq(1, 25, 2)
-evens <- seq(2, 26, 2)
-
-both.means.low <- rowMeans(perm.both[evens, 2:50])
-both.means.high <- rowMeans(perm.both[odds, 2:50])
-points(both.means.low, col = "red", pch = 16, typ = "o", lty = 2)
-points(both.means.high, col = "red", pch = 16, typ = "o", lty = 2)
