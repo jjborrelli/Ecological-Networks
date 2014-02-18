@@ -225,4 +225,18 @@ points(z.high.c, col = "blue", pch = 16)
 points(z.low.c, col = "blue", pch = 16)
 abline(h = 0, lty = 2)
 
+### Applying null model with random webs ------------------------------
 
+N <- fw.indices$N
+L <- fw.indices$Ltot
+
+erg <- list()
+for(i in 1:10000){
+  erg[[i]] <-  erdos.renyi.game(N[1], L[1], "gnm", directed = TRUE, loops = TRUE)
+}
+
+merg <- motif_counter(erg, webs = 1:100)[,2:14]
+cmerg <- colMeans(merg)
+csdmerg <- apply(merg, 2, sd)
+(sub.counts[1,] - cmerg) / csdmerg
+sqrt(var(merg[,4])/50)
