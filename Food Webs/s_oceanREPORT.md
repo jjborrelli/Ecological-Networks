@@ -151,6 +151,15 @@ dd + scale_y_continuous(limits = c(0, 0.12)) + theme(legend.position = "none")
 
 
 
+
+```r
+# motif_counter(list(SOgraph), webs = 'Southern Ocean') pSO <-
+# permatfull(SOadjacency, fixedmar = 'row', mtype = 'prab', times = 100)
+
+```
+
+
+
 -----------------------------------------------------------  
 
 ## By location
@@ -159,6 +168,12 @@ The following code splits up the dataframe by the location column. The resulting
 
 
 ```r
+places <- read.csv("~/Desktop/locationLEVELS.csv")
+placesC <- c()
+for (i in 1:228) {
+    placesC[i] <- as.character(places[[1]][i])
+}
+
 m <- split(s.ocean, f = s.ocean$LOCATION)
 location.g <- list()
 for (i in 1:length(levels(s.ocean$LOCATION))) {
@@ -168,11 +183,12 @@ for (i in 1:length(levels(s.ocean$LOCATION))) {
     g <- graph.edgelist(unique(as.matrix(el.df[, 1:2])))
     
     location.g[[i]] <- g
+    
 }
 ```
 
 
-Plotting webs by location provides some idea about what trophic information was obtained from different sampling locations in the Southern Ocean; the labels `1:228` correspond to `levels(s.ocean$LOCATION)`:
+Plotting webs by location provides some idea about what trophic information was obtained from different sampling locations in the Southern Ocean.
 
 
 ```r
@@ -180,16 +196,20 @@ par(mfrow = c(114, 2), mar = c(0.01, 0.01, 0.01, 0.01))
 for (i in 1:228) {
     plot.igraph(location.g[[i]], layout = layout.circle, edge.arrow.size = 0.5, 
         vertex.label = NA, vertex.size = 5)
-    text(0, 0, label = i, cex = 2)
+    text(0, 0, label = placesC[i], cex = 1.5)
 }
+```
+
+```
+Warning: conversion failure on 'Terre Adü¾™£ ¼le ' in 'mbcsToSbcs': dot
+substituted for <8f> Warning: font metrics unknown for character 0x8f
 ```
 
 ![plot of chunk locationPLOTS](figure/locationPLOTS.png) 
 
 
 It is readily apparent from the food web plots that some sampling locations
-(e.g., **Bay of Morbihan, Kerguelen Islands**; **Iles Crozets**; 
-**Seal Island**; etc.) included only a single predator with a portion of its prey. Others, like **Amanda Bay** and **Rampen**, included a single prey with some of its predators. A few locations, however, have enough species and interactions to be conisdered a near complete food web themselves (e.g., **Croker Passage**; **Scotia Sea, Weddell Sea**). Most webs have a small number of predators and prey and a few interactions.  
+(e.g., **Bay of Morbihan. Kerguelen Islands**; **Iles Crozets**; **Seal Island**; etc.) included only a single predator with a portion of its prey. Others, like **Amanda Bay** and **Rampen**, included a single prey with some of its predators. A few locations, however, have enough species and interactions to be conisdered a near complete food web themselves (e.g., **Croker Passage**; **Scotia Sea. Weddell Sea**). Most webs have a small number of predators and prey and a few interactions. It is also worth noting that there appears to be several repeat locations in the data, such as **Kerguelen Island, Kerguelen Island1, Kerguelen Islands, Kerguelen Islands1, Kerguelen waters**. It may be best to merge webs with locations that are approximately the same. This might reduce the number of webs with only a handful of species.    
   
 Like the whole food web properties calculated above, indices can be calculated for each of the location subwebs.  
 
@@ -462,7 +482,7 @@ Because there are so many different locations (228) the dataframe of web propert
 ggplot(web.props1) + geom_histogram(aes(x = N), binwidth = 5)
 ```
 
-![Histogram of number of species per location](figure/unnamed-chunk-2.png) 
+![Histogram of number of species per location](figure/unnamed-chunk-3.png) 
 
 
 A plot of connectance (_C_) against size (_N_) shows the expected relationship of a decline in connectance with size. It is also evident that most of the food webs in this study have a connectance less than 0.1. A number of webs have a connectance of 0.5, but those represent the locations with webs that are only two species with one interaction.  
@@ -472,7 +492,7 @@ A plot of connectance (_C_) against size (_N_) shows the expected relationship o
 ggplot(web.props1) + geom_point(aes(x = N, y = C))
 ```
 
-![Plot connectance agains size](figure/unnamed-chunk-3.png) 
+![Plot connectance agains size](figure/unnamed-chunk-4.png) 
 
 
 
@@ -484,7 +504,7 @@ colnames(nn) <- as.character(1:228)
 barplot(nn, col = c("blue", "yellow", "darkgreen"), xlab = "Web", ylab = "Percent")
 ```
 
-![Proportions basal, intermediate, top](figure/unnamed-chunk-4.png) 
+![Proportions basal, intermediate, top](figure/unnamed-chunk-5.png) 
 
 
 ---------------------------------------------------------------  
