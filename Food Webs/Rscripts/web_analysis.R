@@ -31,7 +31,9 @@ fw.indices <- read.csv("Tables/FWindices.csv", row.names = 1)
 # Save node.props as a csv files
 #write.csv(node.props, file = "Tables/NODEproperties.csv")
 node.props <- read.csv("Tables/NODEproperties.csv", row.names = 1)
+between <- melt(lapply(web.graphs, betweenness))
 
+node.props <- cbind(betweenness = between[,1], node.props)
 # Create subset of nodes that are herbivores or higher in trophic position
 consumers <- which(round(node.props$TL, 6) >= 2)
 
