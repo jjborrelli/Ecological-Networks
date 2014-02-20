@@ -88,6 +88,7 @@ fw.indices.stand <- fw.indices.mc / fw.indices.sd
 pca.fw <- princomp(fw.indices)
 loadings(pca.fw)
 plot(predict(pca.fw)[,1:2])
+biplot(pca.fw)
 
 
 ###  Motifs --------------------------------------------------
@@ -97,7 +98,13 @@ motif.df <- motif_counter(edge.graphs, webnames)
 #write.csv(motif.df, file = "Tables/motifCOUNTS.csv")
 motif.df <- read.table("Tables/motifCOUNTS.csv", header = T, sep = ",", row.names = 1)
 sub.counts <- motif.df[,2:14]
+row.names(sub.counts) <- motif.df[,1]
+alt.sub.counts <- sub.counts[-c(12, 18, 28),]
+pca.mot <- princomp(alt.sub.counts)
+loadings(pca.mot)
+plot(predict(pca.mot)[,1:2])
 
+biplot(pca.mot, cex = c(.5, .75), pc.biplot = T)
 
 ### Applying permutation methods -----------------------------------------
 
