@@ -38,6 +38,8 @@ node.props <- cbind(betweenness = between[,1], node.props)
 consumers <- which(round(node.props$TL, 6) >= 2)
 
 # Basic plots of trophic position distributions of subset and whole dataset
+hist(aggregate(node.props$TL, list(node.props$L1), max)[,2], breaks = seq(2,7,.25))
+
 hist(node.props$TL[consumers], freq = F, breaks = 20, xlim = c(2, 6))
 
 hist(node.props$TL, breaks = 40, freq =F)
