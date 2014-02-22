@@ -95,7 +95,7 @@ biplot(pca.fw)
 
 ###  Motifs --------------------------------------------------
 
-motif.df <- motif_counter(edge.graphs, webnames)
+#motif.df <- motif_counter(edge.graphs, webnames)
 
 #write.csv(motif.df, file = "Tables/motifCOUNTS.csv")
 motif.df <- read.table("Tables/motifCOUNTS.csv", header = T, sep = ",", row.names = 1)
@@ -121,11 +121,19 @@ boxplot(znorm)
 
 ## Calculate permuted webs and confidence intervals ---------
 
-### Fixed row and column margins ----------------------------
+### Fixed row and column sums ----------------------------
 system.time(
-  permutes <- web_permutation(web.matrices, fixedmar = "both", times = 1000)
+  permutes <- web_permutation(web.matrices, fixedmar = "both", times = 200)
 )
 
+permean.both<- sapply(permutes, FUN = function(x){apply(x[,2:14], 2, mean)})
+persd.both<- sapply(permutes, FUN = function(x){apply(x[,2:14], 2, sd)})
+
+z.both <- (sub.counts - t(permean.both)) / t(persd.both)
+z.both[is.nan(as.matrix(z.both))] <- 0
+z.stand <- apply(z.both, 2, FUN = function(x){x/abs(sum(x))})
+boxplot(z.stand)
+abline(h = 0)
 permint.both<- sapply(permutes, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
 #write.csv(permint.both, file = "Tables/permutedCI_both.csv")
 perm.both <- read.csv("Tables/permutedCI_both.csv", row.names = 1)
