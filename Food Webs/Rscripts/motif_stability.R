@@ -1,4 +1,4 @@
-setwd("~/Desktop/GitHub/Ecological Networks/Projects/Food Webs/Rdata")
+setwd("~/Desktop/Database/Rdata")
 load("motstab.Rdata")
 
 s1<-matrix(c(-1,1,0,-1,0,1,0,-1,0),nrow=3,ncol=3)
@@ -43,9 +43,9 @@ system.time(
 mot.stability <- test_stability(mot.lst, 1000000)
 )
 names(mot.stability) <- c("s1", "s2", "s3", "s4", "s5", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8")
-ms.mat <- matrix(unlist(mot.stability), ncol = 13)
+ms.mat <- unlist(mot.stability)
 colnames(ms.mat) <- c("s1", "s2", "s3", "s4", "s5", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8")
-ms.mat
+sort(ms.mat)
 
 
 save.image("~/Desktop/motstab.Rdata")

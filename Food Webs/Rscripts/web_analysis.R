@@ -123,7 +123,7 @@ boxplot(znorm)
 
 ### Fixed row and column sums ----------------------------
 system.time(
-  permutes <- web_permutation(web.matrices, fixedmar = "both", times = 200)
+  permutes <- web_permutation(web.matrices, fixedmar = "both", times = 1000)
 )
 
 permean.both<- sapply(permutes, FUN = function(x){apply(x[,2:14], 2, mean)})
@@ -131,9 +131,15 @@ persd.both<- sapply(permutes, FUN = function(x){apply(x[,2:14], 2, sd)})
 
 z.both <- (sub.counts - t(permean.both)) / t(persd.both)
 z.both[is.nan(as.matrix(z.both))] <- 0
-z.stand <- apply(z.both, 2, FUN = function(x){x/abs(sum(x))})
-boxplot(z.stand)
+z.norm <- apply(z.stand, 2, FUN = function(x){(x * abs(sum(x)))/sqrt(sum(x^2))})
+#write.csv(z.norm, file = "Tables/zscore_both.csv")
+z.norm <- read.csv("Tables/zscore_both.csv", row.names = 1)
+
+boxplot(z.norm)
 abline(h = 0)
+
+
+
 permint.both<- sapply(permutes, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
 #write.csv(permint.both, file = "Tables/permutedCI_both.csv")
 perm.both <- read.csv("Tables/permutedCI_both.csv", row.names = 1)
@@ -189,6 +195,13 @@ pr.sd <- t(sapply(permutes.row, FUN = function(x){apply(x[,2:14], 2, sd)}))
 ##
 ## Calculate z scores
 z.r <- (sub.counts - pr.means) / pr.sd 
+z.r[is.nan(as.matrix(z.r))] <- 0
+zr.stand <- apply(z.r, 2, FUN = function(x){x/abs(sum(x))})
+#write.csv(zr.stand, file = "Tables/zscore_row.csv")
+boxplot(zr.stand)
+abline(h = 0)
+apply(zr.stand,2, FUN = function(x){sum(x>0)/length(x)})
+
 
 ##
 ## Calculate standard error
@@ -228,6 +241,13 @@ pc.sd <- t(sapply(permutes.col, FUN = function(x){apply(x[,2:14], 2, sd)}))
 ##
 ## Calculate z scores
 z.c <- (sub.counts - pc.means) / pc.sd 
+z.c[is.nan(as.matrix(z.c))] <- 0
+zc.stand <- apply(z.c, 2, FUN = function(x){x/abs(sum(x))})
+#write.csv(zc.stand, file = "Tables/zscore_col.csv")
+boxplot(zc.stand)
+abline(h = 0)
+apply(zc.stand,2, FUN = function(x){sum(x>0)/length(x)})
+
 
 ##
 ## Calculate standard error
@@ -257,25 +277,22 @@ list_erg <- function(n, l, times = 1000, loops = TRUE){
   return(erg)
 }
 
-erg_counter <- function(N, L, times = 1000, loops = TRUE, webs = "NONE"){
-  if(!length(N) == length(L)){
+erg_counter <- function(N, L, iter = 1000, loop = TRUE, webs = "NONE"){
+   if(!length(N) == length(L)){
     stop("N and L vectors not of same length")
-  }
-  if(webs == "NONE"){
-    webs <- 1:times
+   }
+   if(webs == "NONE"){
+    webs <- 1:iter
   }
   
   mot.ergs <- list()
   for(fw in 1:length(N)){
-    ergs <- list_erg(N[fw], L[fw], times = times, loops = loops)
+    ergs <- list_erg(N[fw], L[fw], times = iter, loops = loop)
     mot.ergs[[fw]] <- motif_counter(ergs, webs = webs)[,2:14]
   }
+  return(mot.ergs)
 }
 
-testerg <- erg_counter(N, L)
+testerg <- erg_counter(N, L, iter = 100, loop = TRUE)
 
-merg <- motif_counter(erg, webs = 1:100)[,2:14]
-cmerg <- colMeans(merg)
-csdmerg <- apply(merg, 2, sd)
-(sub.counts[1,] - cmerg) / csdmerg
-sqrt(var(merg[,4])/50)
+
