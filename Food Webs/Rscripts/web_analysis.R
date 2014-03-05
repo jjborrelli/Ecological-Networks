@@ -102,7 +102,7 @@ motif.df <- read.table("Tables/motifCOUNTS.csv", header = T, sep = ",", row.name
 sub.counts <- motif.df[,2:14]
 row.names(sub.counts) <- motif.df[,1]
 alt.sub.counts <- sub.counts[-c(12, 18, 28),]
-pca.mot <- princomp(alt.sub.counts)
+pca.mot <- princomp(sub.counts)
 loadings(pca.mot)
 plot(predict(pca.mot)[,1:2])
 
@@ -134,7 +134,7 @@ z.both[is.nan(as.matrix(z.both))] <- 0
 z.norm <- apply(z.stand, 2, FUN = function(x){(x * abs(sum(x)))/sqrt(sum(x^2))})
 #write.csv(z.norm, file = "Tables/zscore_both.csv")
 z.norm <- read.csv("Tables/zscore_both.csv", row.names = 1)
-
+zeros <- which(as.numeric(rowSums(sub.counts[,6:13])) == 0)
 boxplot(z.norm)
 abline(h = 0)
 
