@@ -5,8 +5,8 @@ setwd("~/Desktop/GitHub/Ecological Networks/Projects/Chain Length/Rscripts")    
 source("chains_functions.R")                                                                ####
 ################################################################################################  
 #### Load workspace image                                                                   ####
-setwd("~/Desktop/GitHub/Ecological Networks/Projects/Chain Length/Rdata")                   ####
-load("chains.Rdata")                                                                        ####
+##setwd("")                   ####
+##load("chains.Rdata")                                                                        ####
 ################################################################################################
 ################################################################################################
 
@@ -24,6 +24,7 @@ params.n <- data.frame(pred1 = c(0, 0, 0, 0, 0, 0, 0), pred2 = c(1, 2, 3, 4, 5, 
 
 qss.tab.n <- find_qss(chain.mats, mode = "norm", parms = params.n, iter = 10000)
 
+qss.tab.ln <- find_qss(chain.mats, mode = "lnorm", parms = params.n, iter = 10000)
 ################################################################################################
 ################################################################################################
 setwd("~/Desktop/GitHub/Ecological Networks/Projects/Chain Length/Rdata")

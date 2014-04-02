@@ -52,10 +52,10 @@ Generate 10 niche model food webs for each pairing of node and connectance
 ```{r}
 web_maker <- function(n, x){ # where n is # of webs to make for each pairing and x is a data frame of node/connectance pairings
   # Make sure the column names in the data frame are N and C 
-  if(colnames(x[1]) != "N"){
+  if(!colnames(x[1]) == "N"){
     warning("Check column names")
   }
-  if(colnames(x[2]) != "C"){
+  if(!colnames(x[2]) == "C"){
     warning("Check column names")
   }
   
@@ -82,7 +82,7 @@ system.time(
 
 Call eigenvalue stability analysis functions from GitHub repository
 ```{r}
-source_url("https://raw.github.com/jjborrelli/Ecological-Networks/master/Projects/Chain%20Length/Rscripts/chains_functions.R")
+source_url("https://raw.githubusercontent.com/jjborrelli/Ecological-Networks/master/Food%20Webs/Rscripts/web_functions.R")
 ```
 
 Define the parameters for `find_qss`
