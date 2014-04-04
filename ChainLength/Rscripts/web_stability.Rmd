@@ -82,17 +82,18 @@ system.time(
 
 Call eigenvalue stability analysis functions from GitHub repository
 ```{r}
-source_url("https://raw.githubusercontent.com/jjborrelli/Ecological-Networks/master/Food%20Webs/Rscripts/web_functions.R")
+source("~/Desktop/GitHub/Ecological-Networks/ChainLength/Rscripts/chains_functions.R")
 ```
 
 Define the parameters for `find_qss`
 ```{r}
-params.n <- data.frame(pred1 = 0, pred2 = 2, prey1 = 0, prey2 = 1)
+params.u <- data.frame(pred1 = 0, pred2 = 10, prey1 = 0, prey2 = 1)
 ```
 
 Analyze the quasi-sign stability of the niche model food webs with `find_qss`
 ```{r}
 system.time(
-  test2 <- lapply(test1, find_qss, mode = "norm", parms = params.n, iter = 100)
-  )
+  test2 <- sapply(test1, find_qss, mode = "unif", parms = params.u, iter = 1000)
+)
+colnames(test2) <- paste(niche.inputs$N, niche.inputs$C)
 ```

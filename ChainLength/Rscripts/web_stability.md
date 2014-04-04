@@ -112,18 +112,14 @@ system.time(test1 <- web_maker(10, niche.inputs))
 
 ```
 ##    user  system elapsed 
-##  30.409   0.105  30.739
+##  29.689   0.098  29.941
 ```
 
 
 Call eigenvalue stability analysis functions from GitHub repository
 
 ```r
-source_url("https://raw.githubusercontent.com/jjborrelli/Ecological-Networks/master/Food%20Webs/Rscripts/web_functions.R")
-```
-
-```
-## Error: error:14077458:SSL routines:SSL23_GET_SERVER_HELLO:reason(1112)
+source("~/Desktop/GitHub/Ecological-Networks/ChainLength/Rscripts/chains_functions.R")
 ```
 
 
@@ -142,10 +138,7 @@ system.time(test2 <- lapply(test1, find_qss, mode = "norm", parms = params.n,
 ```
 
 ```
-## Error: object 'find_qss' not found
-```
-
-```
-## Timing stopped at: 0 0 0.001
+##    user  system elapsed 
+## 4549.44   62.14 4635.06
 ```
 

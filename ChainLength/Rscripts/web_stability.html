@@ -275,15 +275,12 @@ connectance &lt;- seq(0.05, 0.45, 0.025)
 </code></pre>
 
 <pre><code>##    user  system elapsed 
-##  30.409   0.105  30.739
+##  29.689   0.098  29.941
 </code></pre>
 
 <p>Call eigenvalue stability analysis functions from GitHub repository</p>
 
-<pre><code class="r">source_url(&quot;https://raw.githubusercontent.com/jjborrelli/Ecological-Networks/master/Food%20Webs/Rscripts/web_functions.R&quot;)
-</code></pre>
-
-<pre><code>## Error: error:14077458:SSL routines:SSL23_GET_SERVER_HELLO:reason(1112)
+<pre><code class="r">source(&quot;~/Desktop/GitHub/Ecological-Networks/ChainLength/Rscripts/chains_functions.R&quot;)
 </code></pre>
 
 <p>Define the parameters for <code>find_qss</code></p>
@@ -297,10 +294,8 @@ connectance &lt;- seq(0.05, 0.45, 0.025)
     iter = 100))
 </code></pre>
 
-<pre><code>## Error: object &#39;find_qss&#39; not found
-</code></pre>
-
-<pre><code>## Timing stopped at: 0 0 0.001
+<pre><code>##    user  system elapsed 
+## 4549.44   62.14 4635.06
 </code></pre>
 
 </body>
