@@ -1,0 +1,519 @@
+o.test
+graph
+plot.igraph(graph[[1]])
+otagopred
+plot.igraph(graph[[5]])
+o.test[i]<-graph.count.subisomorphisms.vf2(syltpred,graph[[i]])
+o.test<-c()#
+for(i in 1:5){#
+	o.test[i]<-graph.count.subisomorphisms.vf2(syltpred,graph[[i]])#
+}
+o.test
+o.test<-matrix(nrow=5,ncol=5)#
+for(i in 1:5){#
+	for(j in 1:5){#
+	o.test[i,j]<-graph.count.subisomorphisms.vf2(prededge[[i]],graph[[j]])#
+	}#
+}
+o.test
+length(iweb.dat)
+i.test<-matrix(nrow=22,ncol=5)#
+for(i in 1:22){#
+	for(j in 1:5){#
+	i.test[i,j]<-graph.count.subisomorphisms.vf2(iweb.dat[[i]],graph[[j]])#
+	}#
+}#
+rownames(i.test)<-interaction.web.database.names
+colnames(i.test)<-c("2 sp","3 sp","4 sp","5 sp","6 sp")
+i.test
+o.test
+colnames(o.test)<-c("2 sp","3 sp","4 sp","5 sp","6 sp")
+rownames(o.test)<-c("otago","sylt","flens","quick","carp")
+o.test
+plot(o.test[1,])
+plot(o.test[2,])
+plot(o.test[3,])
+plot(o.test[4,])
+plot(o.test[5,])
+par(mfrow=c(5,5))#
+for(i in 1:22){#
+plot(i.test[i,])#
+}
+par(mfrow=c(5,5),mar=c(.1,.1,.1,.1))#
+for(i in 1:22){#
+plot(i.test[i,])#
+}
+par(mfrow=c(11,2),mar=c(.1,.1,.1,.1))
+for(i in 1:22){#
+plot(i.test[i,])#
+}
+for(i in 1:22){#
+plot(i.test[i,],pch=21,bg="black",xlab=NA,ylab=NA,main=NA)#
+}
+library(cheddar)
+data(TL86)
+PlotWebByLevel(TL86)
+?cheddar
+NPS(TL86)
+head(NPS(TL86))
+PlotWebByLevel(TL86)
+identify()
+identify(x)
+?identify
+identify(TL86)
+?PlotWebByLevel(TL86)
+pmtl<-PredationMatrix(TL86)
+eigen(pmpp)
+GetRefs <- function(file.name){#
+  data <- readLines(file.name)#
+  i <- 1#
+  ref.number <- 1#
+  while(i<length(data)){#
+    split.line <- strsplit(data[i], split=" ")[[1]]#
+    ## skip forward to first author line#
+    while(ifelse(length(split.line)==0, T, split.line[1]!="AU")){#
+      i <- i + 1#
+      split.line <- strsplit(data[i], split=" ")[[1]]#
+    }#
+    ## authors#
+    split.line <- strsplit(data[i], split=",")[[1]]#
+    author <- as.character(substr(split.line[1], start=4, stop=nchar(split.line[1])))#
+    while(split.line[1]!="TI"){#
+      i <- i + 1#
+      split.line <- strsplit(data[i], split=" ")[[1]]#
+    }#
+    ## skip forward to cited references#
+    while(split.line[1]!="CR"){#
+      i <- i + 1#
+      split.line <- strsplit(data[i], split=" ")[[1]]#
+    }#
+    cr.number <- 1#
+    first.used <- T#
+#
+    if(split.line[2]!="None"){#
+      while(split.line[1]!="J9"){#
+        if(cr.number==1 & first.used){#
+          split.line <- strsplit(data[i], split=" ")[[1]]#
+          cr.author <- split.line[2]#
+          split.line <- strsplit(data[i], split=", ")[[1]]#
+          cr.year <- as.numeric(split.line[2])#
+          cr.journal <- split.line[3]#
+          if(length(split.line)==5){#
+            cr.volume <- as.numeric(substr(split.line[4], start=2, stop=nchar(split.line[4])))#
+            position <- 2#
+            while(is.na(as.numeric(substr(split.line[5], start=position, stop=nchar(split.line[5])))))#
+              position <- position + 1#
+            cr.page <-  as.numeric(substr(split.line[5], start=position, stop=nchar(split.line[5])))#
+          }#
+          if(length(split.line)!=5){#
+            cr.number <- cr.number - 1#
+            first.used <- F#
+          }#
+        }#
+        if(cr.number==1 & !first.used){#
+          split.line <- strsplit(data[i], split=", ")[[1]]#
+          if(length(split.line)==5){#
+            split.line <- strsplit(data[i], split=" ")[[1]]#
+            cr.author <- split.line[4]#
+            split.line <- strsplit(data[i], split=", ")[[1]]#
+            cr.year <- as.numeric(split.line[2])#
+            cr.journal <- split.line[3]#
+            cr.volume <- as.numeric(substr(split.line[4], start=2, stop=nchar(split.line[4])))#
+            position <- 2#
+            while(is.na(as.numeric(substr(split.line[5], start=position, stop=nchar(split.line[5])))))#
+              position <- position + 1#
+            cr.page <-  as.numeric(substr(split.line[5], start=position, stop=nchar(split.line[5])))#
+          }#
+          if(length(split.line)!=5)#
+            cr.number <- cr.number - 1#
+        }#
+        if(cr.number>1){#
+          split.line <- strsplit(data[i], split=", ")[[1]]#
+          if(length(split.line)==5){#
+            split.line <- strsplit(data[i], split=" ")[[1]]#
+            cr.author <- c(cr.author, split.line[4])#
+            split.line <- strsplit(data[i], split=", ")[[1]]#
+            cr.year <- c(cr.year, as.numeric(split.line[2]))#
+            cr.journal <- c(cr.journal, split.line[3])#
+            cr.volume <- c(cr.volume, as.numeric(substr(split.line[4], start=2, stop=nchar(split.line[4]))))#
+            position <- 2#
+            while(is.na(as.numeric(substr(split.line[5], start=position, stop=nchar(split.line[5])))))#
+              position <- position + 1        #
+            cr.page <- c(cr.page, as.numeric(substr(split.line[5], start=position, stop=nchar(split.line[5]))))#
+          }#
+          if(length(split.line)!=5)#
+            cr.number <- cr.number - 1#
+        }#
+        i <- i + 1#
+        cr.number <- cr.number + 1#
+        split.line <- strsplit(data[i], split=" ")[[1]]#
+      }#
+      if(ref.number==1)#
+        cited.refs <- data.frame(ref.number=rep(ref.number, length(cr.author)),#
+                                 author=cr.author,#
+                                 year=cr.year,#
+                                 journal=cr.journal,#
+                                 volume=cr.volume,#
+                                 page=cr.page)#
+      if(ref.number>1)#
+        cited.refs <- rbind(cited.refs,#
+                            data.frame(ref.number=rep(ref.number, length(cr.author)),#
+                                       author=cr.author,#
+                                       year=cr.year,#
+                                       journal=cr.journal,#
+                                       volume=cr.volume,#
+                                       page=cr.page))#
+    }#
+#
+    ## journal#
+    if(split.line[2]=="None"){#
+      while(split.line[1]!="J9"){#
+        i <- i + 1#
+        split.line <- strsplit(data[i], split=" ")[[1]]#
+      }#
+    }#
+    journal <- paste(split.line[-1], collapse=" ")#
+    ## year#
+    while(split.line[1]!="PY"){#
+      i <- i + 1#
+      split.line <- strsplit(data[i], split=" ")[[1]]#
+    }#
+    year <- as.numeric(split.line[2])#
+    ## volume#
+    while(split.line[1]!="VL"){#
+      i <- i + 1#
+      split.line <- strsplit(data[i], split=" ")[[1]]#
+    }#
+    volume <- as.numeric(split.line[2])#
+    ## beginning page#
+    while(split.line[1]!="BP"){#
+      i <- i + 1#
+      split.line <- strsplit(data[i], split=" ")[[1]]#
+    }#
+    position <- 1#
+    while(is.na(as.numeric(substr(split.line[2], start=position, stop=nchar(split.line[2])))))#
+      position <- position + 1        #
+    page <- as.numeric(substr(split.line[2], start=position, stop=nchar(split.line[2])))#
+    if(ref.number==1)#
+      refs <- data.frame(ref.number=ref.number,#
+                         author=author,#
+                         year=year,#
+                         journal=journal,#
+                         volume=volume,#
+                         page=page)#
+    if(ref.number>1)#
+      refs <- rbind(refs,#
+                    data.frame(ref.number=ref.number,#
+                               author=author,#
+                               year=year,#
+                               journal=journal,#
+                               volume=volume,#
+                               page=page))#
+    while(i<length(data) & split.line[1]!="AU"){#
+      i <- i + 1#
+      split.line <- strsplit(data[i], split=" ")[[1]]#
+      if(length(split.line)==0)#
+        split.line <- 9999#
+    }#
+    ref.number <- ref.number + 1#
+  }#
+  result <- list(refs=refs, cited.refs=cited.refs)#
+  result#
+}
+GetRefs(~/Downloads/savedrecs.txt)
+GetRefs("~/Downloads/savedrecs.txt")
+references<-GetRefs("~/Downloads/savedrecs.txt")
+references
+library(cheddar)
+data(TL84)
+NPS(TL84)
+x=c(1,2,3)
+n=2
+x==n
+n=(1,2,4)
+n=c(1,2,4)
+x==n
+n=c(1,4,2)
+x==n
+x %in% n
+n=c(2,5,6)
+x %in% n
+n %in% x
+sum(n %in% x)
+library(igraph)#
+library(NetIndices)
+?str
+R=2.5
+x.t = R * (x - x^2)
+x=.2
+x.t = R * (x - x^2)
+x.t = R * (x - x^2)#
+x.t
+x.t = R * (x.t - x.t^2)
+x.t = R * (x.t - x.t^2)#
+x.t
+r=4
+k=20
+n.t=20
+n.t=r*(n.t-(n.t^2/k))#
+n.t
+r=5#
+k=100#
+n.t=20#
+n.t=r*(n.t-(n.t^2/k))#
+n.t
+n.t=r*(n.t-(n.t^2/k))#
+n.t
+log(3.569946)
+log(3.56996,base=10)
+exp(3.569946)
+2^8
+3^8
+256/6561
+256/6561*10
+8^10
+load("/Users/jonathanborrelli/Downloads/NetworkData.Rdata")
+citation
+citation()
+3^4
+2^5+2^4+2
+2^6+2^3
+i <- 1#
+while(1){#
+	i <- i + 4#
+	if (i > 10) break#
+}
+i
+while(2){#
+	i <- i + 4#
+	if (i > 10) break#
+}
+i
+library(igraph)
+library(NetIndices)
+akb<-read.csv("~/Desktop/GitHub/Ecological Networks/Database/Food_Web/Edgelist/AkatoreB.csv")
+akb<-akb[,c(2,1)]
+akb
+graph.edgelist(akb)
+graph.edgelist(as.matrix(akb))
+length(unique(akb[,1]))
+length(unique(akb))
+unique(akb)
+length(unique(akb[c(1,2)]))
+length(unique(akb[,c(1,2)]))
+unique(akb[,c(1,2)])
+graph.data.frame(akb)
+graph.data.frame(akb[,c(2,1)])
+x<-graph.data.frame(akb[,c(2,1)])
+x
+str(x)
+V(x)
+library(igraph)
+g<-graph.formula(A+-B)
+g
+get.edgelist(g)
+get.adjacency(g)
+get.adjacency(g,sparse = F)
+rbeta(10)
+rbeta(100,1,1)
+hist(rbeta(100,1,1))
+hist(rbeta(100,1,2))
+hist(abs(rnorm(100,0,1)))
+hist(abs(rnorm(100,0,10)))
+2^5
+2^7+2^6+2^5+2^3
+2^7
+60^(2/3)
+60^(2/3)*4
+60^(3/4)*4
+60^(-1/4)
+x<-60^(-1/4)
+70/x
+194*7^(-1/4)
+200*7^(-1/4)
+factorial(56)/(factorial(7)*factorial(7)*factorial(10)*factorial(11)*factorial(12)*factorial(9))
+.14^7 * .14^7 * .16^10 * .13^11 * .19 ^12 * .24^9
+factorial(56)/(factorial(7)*factorial(7)*factorial(10)*factorial(11)*factorial(12)*factorial(9))*.14^7 * .14^7 * .16^10 * .13^11 * .19 ^12 * .24^9
+sqrt(8)
+54/6
+6*3&10
+6*3^10
+3^19
+3^10
+3*3*3*3*3
+3*3*3*3*3*3*3*3*3*3
+*6
+3*3*3*3*3*3*3*3*3*3*6
+2300/459
+2300/450
+.89^18
+0.95^20
+1 - 0.95^20
+1 - 0.95^(1/20)
+3.5/40
+15*.2
+log.eq <- function(r, x){
+fx <- r * x * (1 - x)}
+log.eq <- function(r, x, t){#
+	fx.t <- c()#
+	fx.t[1] <- r * x * (1 - x)#
+	for(i in 2:t){#
+		fx.t[i] <- r * fx.t[i-1] * (1 - fx.t[i-1])#
+	}#
+}
+log.eq(1.5, .2, 3)
+log.eq <- function(r, x, t){#
+	fx.t <- c()#
+	fx.t[1] <- r * x * (1 - x)#
+	for(i in 2:t){#
+		fx.t[i] <- r * fx.t[i-1] * (1 - fx.t[i-1])#
+	}#
+	return(fx.t)#
+}#
+#
+log.eq(1.5, .2, 3)
+log.eq <- function(r, x, t){#
+	fx.t <- c()#
+	fx.t[1] <- r * x * (1 - x)#
+	for(i in 2:t){#
+		fx.t[i] <- r * fx.t[i-1] * (1 - fx.t[i-1])#
+	}#
+	return(c(x, fx.t))#
+}#
+#
+log.eq(1.5, .2, 3)
+log.eq(3.1, .1, 3)
+log.eq(3.7, .9, 3)
+2/.43
+10/15
+15/.66
+5/4.65
+5/4.669201
+1.070847 +15
+1.070847/4.669201
+16.07085 + .2293427
+3/4.669201
+12^(1/6)
+log(3)/log(1.513086)
+6*(log(3)/log(12))
+log(3)/log(1.02)
+325/300
+1.08^(1/10)
+log(1000/325)/log(1.08333)
+60/25
+28/7
+16*.64+9*.64+30+4.5
+16*.64+9*.64+30+8
+10/12 *11/12 * 15/11
+1.041667^(1/3)
+8+6+12+6+12+28+12+4
+16*2.4+9*2.4+30+8
+(12/10)*(11/12)*(15/11)
+1.5^(1/3)
+require(devtools)
+source_url("https://raw.githubusercontent.com/jjborrelli/Ecological-Networks/master/ChainLength/Rscripts/chains_functions.R")
+dose<-c(1.175,1.175,2.35,2.35,4.70,4.70,4.70,7.05,7.05,9.4,9.4,9.4,14.1,14.1)
+log<-c(-0.821,-0.598,-1.833,-2.040,-3.219,-3.219,-2.794,-5.298,-5.745,-6.812,-8.805,-8.568,-4.962,-9.721)
+radiation<-as.data.frame(cbind(dose,log));rownames(radiation)<-seq(1,14))
+rownames(radiation)<-seq(1,14))
+rownames(radiation)<-seq(1,14)
+radiation.lm<-lm(dose~log,data=radiation)
+plot(dose,log)
+points(mean(dose),mean(log),pch=16) # Plot mean of data set
+abline(radiation.lm$coefficients[1],radiation.lm$coefficients[2])
+abline(radiation.lm)
+radiation
+radiation.lm
+plot(dose,log)
+abline(radiation.lm)
+radiation.lm$coefficients[1]
+radiation.lm$coefficients[2]
+?abline
+plot(dose,log)
+abline(h=0)
+abline(a=.91, b = -1.22)
+radiation.lm<-lm(log~dose,data=radiation)
+plot(dose,log)
+points(mean(dose),mean(log),pch=16) # Plot mean of data set
+abline(radiation.lm$coefficients[1],radiation.lm$coefficients[2])
+average(2:10)
+mean(2:10)
+median(2:10)
+2000000000 * .2528
+2000000000 * .07
+2000000000 * .07 *2
+2000000000 * .07 *3
+read.table("~/Desktop/test2.xlsx")
+?read.xlsx
+require(xlsx)
+read.xlsx("~/Desktop/test2.xlsx")
+?read.xlsx
+read.xlsx("~/Desktop/test2.xlsx", 1)
+read.xlsx("~/Desktop/test2.xlsx", 1, header = F)
+inputs <- get_webs("~/Dropbox/Food Web Database/Food_Web/Edgelist")
+source("~/Desktop/GitHub/Ecological-Networks/FoodWebs/Rscripts/web_functions.R")
+inputs <- get_webs("~/Dropbox/Food Web Database/Food_Web/Edgelist")
+web.graphs <- inputs$graph.list
+web.matrices <- inputs$adjacency.list
+webnames <- inputs$webnames
+setwd("~/Desktop/GitHub/Ecological-Networks/FoodWebs")
+node.props <- read.csv("Tables/NODEproperties.csv", row.names = 1)
+between <- melt(lapply(web.graphs, betweenness))
+maxTL <- aggregate(node.props$TL, by = list(node.props$L1), max)
+ran.unif <- function(motmat){#
+  newmat <- apply(motmat, c(1,2), function(x){#
+    if(x==1){runif(1, 0, 10)}else if(x==-1){runif(1, -1, 0)} else{0}#
+  })#
+  diag(newmat) <- runif(1, -1, 0)#
+  return(newmat)#
+}#
+#
+### using a lognormal#
+ran.lnorm <- function(motmat){#
+  newmat <- apply(motmat, c(1,2), function(x){#
+    if(x==1){rlnorm(1, -1, 1)}else if(x==-1){-rlnorm(1, -5, 1)} else{0}#
+  })#
+  diag(newmat) <- -rlnorm(1, -5, 1)#
+  return(newmat)#
+}#
+#
+### Calculate largest eigenvalue (the real part)#
+maxRE <- function(rmat){#
+  lam.max <- max(Re(eigen(rmat)$values))#
+  return(lam.max)#
+}#
+#
+### Wrap previous two functions together#
+eig.analysis <- function(n, matrices, mode = "unif"){#
+  cols <- length(matrices)#
+  rows <- n#
+  eigenMATRIX <- matrix(nrow = rows, ncol = cols)#
+  for(i in 1:n){#
+    if(mode == "unif"){#
+      ranmat <- lapply(matrices, ran.unif)#
+    }else if(mode == "lnorm"){#
+      ranmat <- lapply(matrices, ran.lnorm)#
+    }#
+    eigs <- sapply(ranmat, maxRE)#
+    eigenMATRIX[i,] <- eigs#
+  }#
+  return(eigenMATRIX)#
+}#
+#
+conversion <- function(tm){#
+  for(i in 1:nrow(tm)){#
+    for(j in 1:ncol(tm)){#
+      if(tm[i,j] == 1){tm[j,i] <- -1}#
+    }#
+  }#
+  return(tm)#
+}
+webmats <- lapply(web.matrices, conversion)
+reps = 10#
+system.time(#
+  fw.stab.u <- eig.analysis(reps, webmats, mode = "unif")#
+)
+3.2 *10000
+/60
+32000/60
+533/60
