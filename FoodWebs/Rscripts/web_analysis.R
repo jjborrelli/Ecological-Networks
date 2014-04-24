@@ -7,8 +7,10 @@ library(vegan)
 
 ### Load functions       --------------------------------------------------
 
-url <- "https://raw.github.com/jjborrelli/Ecological-Networks/master/Food%20Webs/Rscripts/web_functions.R"
+url <- "https://raw.githubusercontent.com/jjborrelli/Ecological-Networks/master/FoodWebs/Rscripts/web_functions.R"
 source_url(url)
+
+source("~/Desktop/GitHub/Ecological-Networks/FoodWebs/Rscripts/web_functions.R")
 
 ### Import food web data  --------------------------------------------------
 inputs <- get_webs("~/Dropbox/Food Web Database/Food_Web/Edgelist")
@@ -17,7 +19,7 @@ web.matrices <- inputs$adjacency.list
 webnames <- inputs$webnames
 
 ### Set Working Directory     --------------------------------------------------
-setwd("~/Desktop/GitHub/Ecological-Networks/Food Webs")
+setwd("~/Desktop/GitHub/Ecological-Networks/FoodWebs")
 
 ### Calculate common food web indices/statistics  ----------------------------
 #fw.indices <- get_fw_indices(web.matrices, web.graphs, webnames)
@@ -32,6 +34,8 @@ fw.indices <- read.csv("Tables/FWindices.csv", row.names = 1)
 #write.csv(node.props, file = "Tables/NODEproperties.csv")
 node.props <- read.csv("Tables/NODEproperties.csv", row.names = 1)
 between <- melt(lapply(web.graphs, betweenness))
+
+maxTL <- aggregate(node.props$TL, by = list(node.props$L1), max)
 
 node.props <- cbind(betweenness = between[,1], node.props)
 # Create subset of nodes that are herbivores or higher in trophic position
