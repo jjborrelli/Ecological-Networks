@@ -1,4 +1,4 @@
-setwd("~/Desktop/GitHub/Ecological Networks/Database/Ecosystem Flow/Ulan")
+setwd("~/Dropbox/Food Web Database/Ecosystem Flow/Ulan")
 
 require(enaR)
 require(reshape2)
@@ -10,10 +10,14 @@ ulan.names <- tolower(names)
 
 networks.list <- list()
 for (i in 1:15){
-  networks.list[[i]] <- read.scor(weblist[i])
+  networks.list[[i]] <- read.scor(weblist[i], type = "edge.list")$flow
 }
 
 names(networks.list) <- ulan.names
+for(i in 1:15){
+  write.csv(networks.list[[i]], file = paste(ulan.names[i], ".csv", sep = ""))
+}
+
 
 ulan.mat <- lapply(networks.list, as.matrix.network)
 ulan.struct <- t(sapply(ulan.mat, structure.statistics))
@@ -22,7 +26,7 @@ plot(ulan.struct[,1], ulan.struct[,2])
 
 require(igraph)
 ulan.igraph <- lapply(ulan.mat, graph.adjacency)
-ulan.motifs <- motif_counter(ulan.igraph, webs = ulan.names)
+ulan.motifs <- motif_counter(ulan.mat, webs = ulan.names)
 ulan.motifs.null <- null_motifs(ulan.igraph, ulan.names, sample = 500, iter = 200)
 
 websp <- split(ulan.motifs.null, ulan.motifs.null$web)
