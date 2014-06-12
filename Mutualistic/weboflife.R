@@ -2,7 +2,7 @@ require(bipartite)
 require(ggplot2)
 
 # Quantitative pollination networks
-setwd("~/Dropbox/Food Web Database/Mutualistic/")
+setwd("C:/Users/borre_000/Dropbox/Food Web Database/Mutualistic/")
 polwebfiles <- list.files("web-of-life_2014-03-12_000716/")[grep("M_PL", list.files("web-of-life_2014-03-12_000716/"))]
 
 polwebs <- list()
