@@ -133,3 +133,29 @@ pdi2 <- sapply(swebs, PDI)
 qdf <- data.frame(specialization = c(unlist(pdi1), unlist(pdi2)),
                   lat = c(rep(polrefs$Latitude, lps2),rep(sdref$Latitude, lss2)))
 ggplot(qdf, aes(x = abs(lat), y = specialization)) + geom_point() + geom_smooth(method = "glm")
+
+
+# Web names
+wnames <- c(polwebfiles, polwebfiles.bin, sdwebfiles, swebfiles.bin)
+
+# Structure
+c.pwebs <- sapply(pwebs, function(x){sum(x>0)/(nrow(x)*ncol(x))})
+c.pwebs.b <- sapply(pwebs.bin, function(x){sum(x>0)/(nrow(x)*ncol(x))})
+c.swebs <- sapply(swebs, function(x){sum(x>0)/(nrow(x)*ncol(x))})
+c.swebs.b <- sapply(swebs.bin, function(x){sum(x>0)/(nrow(x)*ncol(x))})
+
+con <- c(c.pwebs, c.pwebs.b, c.swebs, c.swebs.b)
+
+type <- c(rep("pollinator", 59), rep("seed",30))
+
+allWEBS <- list(pwebs, pwebs.bin, swebs, swebs.bin)
+
+animals <- unlist(lapply(allWEBS, function(x){sapply(x, nrow)}))
+
+plants <- unlist(lapply(allWEBS, function(x){sapply(x, ncol)}))
+
+nest <- unlist(lapply(allWEBS, function(x){sapply(x, nested, method = "NODF2")}))
+
+
+
+mutDAT <- data.frame(type, web = wnames, Pl = plants, An = animals, C = con, NODF2 = nest)
