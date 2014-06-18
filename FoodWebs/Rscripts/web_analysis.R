@@ -10,16 +10,16 @@ library(vegan)
 url <- "https://raw.githubusercontent.com/jjborrelli/Ecological-Networks/master/FoodWebs/Rscripts/web_functions.R"
 source_url(url)
 
-source("~/Desktop/GitHub/Ecological-Networks/FoodWebs/Rscripts/web_functions.R")
+source("C:/Users/borre_000/Desktop/GitHub/Ecological-Networks/FoodWebs/Rscripts/web_functions.R")
 
 ### Import food web data  --------------------------------------------------
-inputs <- get_webs("~/Dropbox/Food Web Database/Food_Web/Edgelist")
+inputs <- get_webs("C:/Users/borre_000/Dropbox/Food Web Database/Food_Web/Edgelist")
 web.graphs <- inputs$graph.list
 web.matrices <- inputs$adjacency.list
 webnames <- inputs$webnames
 
 ### Set Working Directory     --------------------------------------------------
-setwd("~/Desktop/GitHub/Ecological-Networks/FoodWebs")
+setwd("C:/Users/borre_000/Desktop/GitHub/Ecological-Networks/FoodWebs")
 
 ### Calculate common food web indices/statistics  ----------------------------
 #fw.indices <- get_fw_indices(web.matrices, web.graphs, webnames)

@@ -129,4 +129,84 @@ outdir = getwd()
 
 ```
 
+```{r}
+load("C:/Users/borre_000/Desktop/GitHub/Food-Chain-Length/WholeWebSim//chainINFO.Rdata")
 
+a <- which(totalDAT$scenario == c("1/-1", "5/-5", "10/-10"))
+b <- which(totalDAT$scenario == c("10/-1", "5/-1", "1/-5", "1/-10"))
+
+ggplot(totalDAT[b,], aes(x = MeanTL, y = QSS)) +
+  geom_point(aes(col = ints)) +
+  geom_smooth(aes(lty = ints), method = "glm", col = "black") +
+  facet_wrap(~scenario)
+
+```
+
+```{r}
+m <- matrix(0, nrow = 10, ncol = 10)
+for(i in 1:9){
+  m[i,i+1] <- 1
+}
+m[8,10] <- 1
+m[5,9] <- 1
+m[3,7] <- 1
+plot.igraph(graph.adjacency(m), layout = layout.circle)
+
+#---------------------
+m <- matrix(0, nrow = 10, ncol = 10)
+for(i in 1:9){
+  m[i,i+1] <- 1
+}
+m[1,9] <- 1
+m[2,5] <- 1
+m[3,c(5,8)] <- 1
+m[5,8] <- 1
+m[7,10] <- 1
+m[8,10] <- 1
+m
+plot.igraph(graph.adjacency(m), layout = layout.circle)
+
+#---------------------
+m <- matrix(0, nrow = 10, ncol = 10)
+for(i in 1:9){
+  m[i,i+1] <- 1
+}
+m[1,c(4,9)] <- 1
+m[2,c(5,10)] <- 1
+m[3,c(5,7,8)] <- 1
+m[5,10] <- 1
+m[6,8] <- 1
+m[7,9] <- 1
+m[8,10] <- 1
+plot.igraph(graph.adjacency(m), layout = layout.circle)
+
+#---------------------
+m <- matrix(0, nrow = 10, ncol = 10)
+for(i in 1:9){
+  m[i,i+1] <- 1
+}
+m[1,c(3,7,9)] <- 1
+m[2,c(4,5,8,10)] <- 1
+m[3,c(6,9)] <- 1
+m[4,7] <- 1
+m[5,c(7,8,10)] <- 1
+m[6,9] <- 1
+m[8,10] <- 1
+plot.igraph(graph.adjacency(m), layout = layout.circle)
+
+#---------------------
+m <- matrix(0, nrow = 10, ncol = 10)
+for(i in 1:9){
+  m[i,i+1] <- 1
+}
+m[1,c(3,6,8,10)] <- 1
+m[2,c(5,7,8,10)] <- 1
+m[3,c(5,7,9)] <- 1
+m[4,c(7,8)] <- 1
+m[5,c(9,10)] <- 1
+m[6,c(8,9)] <- 1
+m[7,9] <- 1
+m[8,10] <- 1
+plot.igraph(graph.adjacency(m), layout = layout.circle)
+
+```
