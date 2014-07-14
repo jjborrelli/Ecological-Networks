@@ -126,22 +126,33 @@ boxplot(znorm)
 ## Calculate permuted webs and confidence intervals ---------
 
 ### Fixed row and column sums ----------------------------
+setwd("C:/Users/borre_000/Desktop/permwebs/")
+require(igraph)
+require(vegan)
 system.time(
-  permutes <- web_permutation(web.matrices, fixedmar = "both", times = 1000)
+  web_permutation(web.matrices, fixedmar = "both", times = 1000, filename = "permSUBS", from = 1, to = 50)
 )
+
+permutes <- list()
+for(i in 1:50){
+  permutes[[i]] <- read.csv(list.files()[i], row.names = 1)
+}
 
 permean.both<- sapply(permutes, FUN = function(x){apply(x[,2:14], 2, mean)})
 persd.both<- sapply(permutes, FUN = function(x){apply(x[,2:14], 2, sd)})
 
 z.both <- (sub.counts - t(permean.both)) / t(persd.both)
 z.both[is.nan(as.matrix(z.both))] <- 0
-z.norm <- apply(z.stand, 2, FUN = function(x){(x * abs(sum(x)))/sqrt(sum(x^2))})
-#write.csv(z.norm, file = "Tables/zscore_both.csv")
+z.both[z.both == "Inf"] <- 0
+sumZ <- sqrt(apply(z.both^2, 1, sum))
+znorm <- apply(z.both, 2, function(x){x/sumZ})
+
+#write.csv(znorm, file = "Tables/zscore_both2.csv")
 z.norm <- read.csv("Tables/zscore_both.csv", row.names = 1)
 zeros <- which(as.numeric(rowSums(sub.counts[,6:13])) == 0)
 boxplot(z.norm)
 abline(h = 0)
-
+apply
 
 
 permint.both<- sapply(permutes, FUN = function(x){apply(x[,2:14], 2, quantile, probs = c(0.975, 0.025))})
@@ -299,4 +310,12 @@ erg_counter <- function(N, L, iter = 1000, loop = TRUE, webs = "NONE"){
 
 testerg <- erg_counter(N, L, iter = 100, loop = TRUE)
 
+means <- sapply(testerg, FUN = function(x){apply(x, 2, mean)})
+persd<- sapply(testerg, FUN = function(x){apply(x, 2, sd)})
 
+z.both <- (sub.counts - t(means)) / t(persd)
+z.both[is.nan(as.matrix(z.both))] <- 0
+z.both[z.both == "Inf"] <- 0
+sumZ <- sqrt(apply(z.both^2, 1, sum))
+znorm <- apply(z.both, 2, function(x){x/sumZ})
+boxplot(znorm)
