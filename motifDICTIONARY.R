@@ -207,3 +207,73 @@ fournode.gr <- lapply(fournode, graph.edgelist)
 
 # Create adjacency matrices
 fournode.am <- lapply(fournode.gr, get.adjacency, sparse = F)
+
+
+# motif_counter function from "web_functions.R"
+mot.4 <- motif_counter(fournode.gr, names(fournode.gr))
+subcount.4 <- mot.4[,2:14]
+
+# Stability analysis functions from "motifAnalysis.R"
+conversion <- function(tm){
+  for(i in 1:nrow(tm)){
+    for(j in 1:ncol(tm)){
+      if(tm[i,j] == 1 & tm[j,i] == 0){tm[j,i] <- -1}
+    }
+  }
+  return(tm)
+}
+
+ran.unif <- function(motmat){
+  newmat <- apply(motmat, c(1,2), function(x){
+    if(x==1){runif(1, 0, 10)}else if(x==-1){runif(1, -1, 0)} else{0}
+  })
+  diag(newmat) <- runif(nrow(newmat), -1, 0)
+  return(newmat)
+}
+
+maxRE <- function(rmat){
+  lam.max <- max(Re(eigen(rmat)$values))
+  return(lam.max)
+}
+
+eig.analysis <- function(n, matrices){
+  cols <- length(matrices)
+  rows <- n
+  eigenMATRIX <- matrix(0, nrow = rows, ncol = cols)
+  for(i in 1:n){
+    ranmat <- lapply(matrices, ran.unif)
+    
+    eigs <- sapply(ranmat, maxRE)
+    eigenMATRIX[i,] <- eigs
+  }
+  return(eigenMATRIX)
+}
+
+
+# run the stability analysis on four node subgraphs
+fourN.co <- lapply(fournode.am, conversion)
+system.time(
+emat <- eig.analysis(1000, fourN.co)
+)
+
+qss.4 <- apply(emat, 2, function(x){sum(x < 0)/length(x)})
+names(qss.4) <- names(fournode.am)
+
+num.edges <- sapply(fournode.am, sum)
+
+plot(qss.4[names(sort(num.edges))])
+table(num.edges)
+
+
+results <- data.frame(edges = num.edges, qss = qss.4)
+
+sub2 <- cbind(subcount.4[,1:5], other = rowSums(subcount.4[,6:13]))
+
+m <- apply(sub2, 2, mean)
+s <- apply(sub2, 2, sd)
+
+
+z <- (sub2 - m)/s
+
+z.test <-  as.matrix(z)
+summary(glm(qss.4~z.test, family = "quasibinomial"))
