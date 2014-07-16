@@ -1,201 +1,209 @@
-id14 <- matrix(c(2,1,3,1,4,1), ncol = 2, byrow = T)
-id28 <- matrix(c(3,1,4,1,1,2), ncol = 2, byrow = T)
-id30 <- matrix(c(3,1,4,1,1,2,2,1), ncol = 2, byrow = T)
-id74 <- matrix(c(2,1,3,2,4,1), ncol = 2, byrow = T)
-id76 <- matrix(c(3,1,3,2,4,1), ncol = 2, byrow = T)
-id78 <- matrix(c(2,1,3,1,4,1,3,2), ncol = 2, byrow = T)
-id90 <- matrix(c(2,1,1,2,3,2,4,1), ncol = 2, byrow = T)
-id92 <- matrix(c(1,2,3,1,3,2,4,1), ncol = 2, byrow = T) 
-id94 <- matrix(c(1,2,2,1,4,1,3,1,3,2), ncol = 2, byrow = T)
-id204 <- matrix(c(3,1,3,2,4,1,4,2), ncol = 2, byrow = T)
-id206 <- matrix(c(2,1,3,1,4,1,3,2,4,2), ncol = 2, byrow = T)
-id222 <- matrix(c(2,1,3,1,4,1,3,2,4,2,1,2), ncol = 2, byrow = T)
-id280 <- matrix(c(1,2,1,3,4,1), ncol = 2, byrow = T)
-id282 <- matrix(c(1,2,1,3,4,1,2,1), ncol = 2, byrow = T)
-id286 <- matrix(c(1,2,1,3,4,1,2,1,3,1), ncol = 2, byrow = T)
-id328 <- matrix(c(1,3,4,1,3,2), ncol = 2, byrow = T)
-id330 <- matrix(c(2,1,1,3,4,1,3,2), ncol = 2, byrow = T)
-id332 <- matrix(c(4,1,3,2,3,1,1,3), ncol = 2, byrow = T)
-id334 <- matrix(c(4,1,3,2,3,1,1,3,2,1), ncol = 2, byrow = T)
-id344 <- matrix(c(4,1,3,2,3,1,1,3,1,2), ncol = 2, byrow = T)
-id346 <- matrix(c(2,1,1,3,4,1,3,2,1,2), ncol = 2, byrow = T)
-id348 <- matrix(c(4,1,3,2,3,1,1,3,1,2), ncol = 2, byrow = T)
-id350 <- matrix(c(4,1,3,2,3,1,1,3,2,1,1,2), ncol = 2, byrow = T)
-id390 <- matrix(c(2,1,1,3,3,1,4,2), ncol = 2, byrow = T)
-id392 <- matrix(c(1,3,4,1,4,2), ncol = 2, byrow = T)
-id394 <- matrix(c(2,1,1,3,4,1,4,2), ncol = 2, byrow = T)
-id396 <- matrix(c(3,1,1,3,4,1,4,2), ncol = 2, byrow = T)
-id398 <- matrix(c(2,1,1,3,3,1,4,2,4,1), ncol = 2, byrow = T)
-id404 <- matrix(c(1,3,3,1,1,2,4,2), ncol = 2, byrow = T)
-id406 <- matrix(c(1,3,3,1,1,2,2,1,4,2), ncol = 2, byrow = T)
-id408 <- matrix(c(1,3,2,1,4,1,4,2), ncol = 2, byrow = T)
-id410 <- matrix(c(2,1,1,3,4,2,4,1,1,2), ncol = 2, byrow = T)
-id412 <- matrix(c(1,2,3,1,1,3,4,1,4,2), ncol = 2, byrow = T)
-id414 <- matrix(c(1,2,3,1,1,3,4,1,4,2,2,1), ncol = 2, byrow = T)
-id454 <- matrix(c(2,1,1,3,3,1,3,2,4,2), ncol = 2, byrow = T)
-id456 <- matrix(c(1,3,4,1,2,3,4,2), ncol = 2, byrow = T)
-id458 <- matrix(c(1,3,2,1,4,1,4,2,3,2), ncol = 2, byrow = T)
-id460 <- matrix(c(1,3,3,1,4,1,4,2,3,2), ncol = 2, byrow = T)
-id462 <- matrix(c(2,1,1,3,3,1,3,2,4,1,4,2), ncol = 2, byrow = T)
-id468 <- matrix(c(1,2,1,3,3,1,3,2,4,2), ncol = 2, byrow = T)
-id470 <- matrix(c(1,3,3,1,1,2,2,1,3,2,4,1,4,2), ncol = 2, byrow = T)
-id472 <- matrix(c(1,3,1,2,4,1,4,2,3,2), ncol = 2, byrow = T)
-id474 <- matrix(c(1,3,1,2,2,1,3,2,4,1,4,2), ncol = 2, byrow = T)
-id476 <- matrix(c(1,3,3,1,1,2,3,2,4,1,4,2), ncol = 2, byrow = T)
-id478 <- matrix(c(1,3,3,1,1,2,2,1,3,2,4,1,4,2), ncol = 2, byrow = T)
-id856 <- matrix(c(1,3,1,2,2,3,3,2,4,1), ncol = 2, byrow = T)
-id858 <- matrix(c(1,3,1,2,2,1,2,3,3,2,4,1), ncol = 2, byrow = T)
-id862 <- matrix(c(1,3,3,1,1,2,2,1,2,3,3,2,4,1), ncol = 2, byrow = T)
-id904 <- matrix(c(1,3,2,3,4,1,4,2), ncol = 2, byrow = T)
-id906 <- matrix(c(1,3,2,1,2,3,4,1,4,2), ncol = 2, byrow = T)
-id908 <- matrix(c(1,3,3,1,4,1,4,2,2,3), ncol = 2, byrow = T)
-id910 <- matrix(c(1,3,3,1,2,1,2,3,4,1,4,2), ncol = 2, byrow = T)
-id922 <- matrix(c(1,3,1,2,2,1,2,3,4,1,4,2), ncol = 2, byrow = T)
-id924 <- matrix(c(1,3,3,1,1,2,2,3,4,1,4,2), ncol = 2, byrow = T)
-id926 <- matrix(c(1,3,3,1,1,2,2,1,4,1,4,2,2,3), ncol = 2, byrow = T)
-id972 <- matrix(c(1,3,3,1,2,3,3,2,4,1,4,2), ncol = 2, byrow = T)
-id974 <- matrix(c(1,3,3,1,2,1,2,3,3,2,4,1,4,2), ncol = 2, byrow = T)
-id990 <- matrix(c(1,3,3,1,1,2,2,1,2,3,3,2,4,1,4,2), ncol = 2, byrow = T)
-id2184 <- matrix(c(4,1,4,2,4,3), ncol = 2, byrow = T)
-id2186 <- matrix(c(4,1,4,2,4,3,2,1), ncol = 2, byrow = T)
-id2190 <- matrix(c(4,1,4,2,4,3,2,1,3,1), ncol = 2, byrow = T)
-id2202 <- matrix(c(1,2,2,1,4,1,4,2,4,3), ncol = 2, byrow = T)
-id2204 <- matrix(c(3,1,1,2,4,1,4,2,4,3), ncol = 2, byrow = T)
-id2206 <- matrix(c(1,2,2,1,3,1,4,1,4,2,4,3), ncol = 2, byrow = T)
-id2252 <- matrix(c(3,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T)
-id2254 <- matrix(c(3,1,2,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T)
-id2270 <- matrix(c(1,2,2,1,3,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T)
-id2458 <- matrix(c(1,2,2,1,1,3,4,1,4,2,4,3), ncol = 2, byrow = T)
-id2462 <- matrix(c(1,3,3,1,1,2,2,1,4,1,4,2,4,3), ncol = 2, byrow = T)
-id2506 <- matrix(c(1,3,2,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T)
-id2510 <- matrix(c(1,3,3,1,2,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T)
-id2524 <- matrix(c(1,2,1,3,3,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T)
-id2526 <- matrix(c(1,2,2,1,1,3,3,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T)
-id3038 <- matrix(c(1,2,2,1,1,3,3,1,3,2,2,3,4,1,4,2,4,3), ncol = 2, byrow = T)
-id4370 <- matrix(c(1,3,1,2,2,1,4,1), ncol = 2, byrow = T)
-id4374 <- matrix(c(1,3,3,1,1,2,2,1,4,1), ncol = 2, byrow = T)
-id4382 <- matrix(c(1,2,2,1,1,3,3,1,1,4,4,1), ncol = 2, byrow = T)
-id4418 <- matrix(c(1,3,2,1,1,4,3,2), ncol = 2, byrow = T)
-id4420 <- matrix(c(1,3,3,1,3,2,1,4), ncol = 2, byrow = T)
-id4422 <- matrix(c(1,3,3,1,3,2,2,1,1,4), ncol = 2, byrow = T)
-id4424 <- matrix(c(1,3,3,2,4,1,1,4), ncol = 2, byrow = T)
-id4426 <- matrix(c(1,3,2,1,3,2,1,4,4,1), ncol = 2, byrow = T)
-id4428 <- matrix(c(1,3,3,1,1,4,4,1,3,2), ncol = 2, byrow = T)
-id4430 <- matrix(c(1,3,3,1,2,1,1,4,4,1,3,2), ncol = 2, byrow = T)
-id4434 <- matrix(c(3,1,1,2,2,1,1,4,3,2), ncol = 2, byrow = T)
-id4436 <- matrix(c(1,3,3,1,1,2,1,4,3,2), ncol = 2, byrow = T)
-id4438 <- matrix(c(1,2,2,1,1,3,3,1,3,2,1,4), ncol = 2, byrow = T)
-id4440 <- matrix(c(1,3,1,2,1,4,4,1,3,2), ncol = 2, byrow = T)
-id4442 <- matrix(c(1,3,1,2,2,1,1,4,4,1,3,2), ncol = 2, byrow = T)
-id4444 <- matrix(c(1,3,3,1,1,4,4,1,1,2,3,2), ncol = 2, byrow = T)
-id4446 <- matrix(c(1,3,3,1,1,4,4,1,1,2,2,1,3,2), ncol = 2, byrow = T)
-id4546 <- matrix(c(1,3,2,1,1,4,4,2,3,2), ncol = 2, byrow = T)
-id4548 <- matrix(c(1,3,3,1,1,4,3,2,4,2), ncol = 2, byrow = T)
-id4550 <- matrix(c(1,3,3,1,2,1,1,4,3,2,4,2), ncol = 2, byrow = T)
-id4556 <- matrix(c(1,3,3,1,1,4,3,2,4,2,4,1), ncol = 2, byrow = T)
-id4558 <- matrix(c(1,3,3,1,1,4,4,1,4,2,2,1,3,2), ncol = 2, byrow = T)
-id4562 <- matrix(c(1,3,1,2,2,1,3,2,4,2,1,4), ncol = 2, byrow = T)
-id4564 <- matrix(c(1,3,3,1,1,2,1,4,3,2,4,2), ncol = 2, byrow = T)
-id4566 <- matrix(c(1,3,3,1,1,2,2,1,3,2,4,2,1,4), ncol = 2, byrow = T)
-id4572 <- matrix(c(1,3,3,1,1,2,3,2,4,2,1,4,4,1), ncol = 2, byrow = T)
-id4574 <- matrix(c(1,2,2,1,1,3,3,1,1,4,4,1,3,2,4,2), ncol = 2, byrow = T)
-id4678 <- matrix(c(3,1,2,1,1,4,3,2,2,3), ncol = 2, byrow = T)
-id4682 <- matrix(c(2,1,1,4,4,1,2,3,3,2), ncol = 2, byrow = T)
-id4686 <- matrix(c(3,1,2,1,1,4,4,1,2,3,3,2), ncol = 2, byrow = T)
-id4692 <- matrix(c(3,1,1,2,1,4,2,3,3,2), ncol = 2, byrow = T)
-id4694 <- matrix(c(1,2,2,1,1,4,2,3,3,2,3,1), ncol = 2, byrow = T)
-id4698 <- matrix(c(1,2,2,1,2,3,3,2,1,4,4,1), ncol = 2, byrow = T)
-id4700 <- matrix(c(3,1,1,2,1,4,4,1,2,3,3,2), ncol = 2, byrow = T)
-id4702 <- matrix(c(3,1,1,2,2,1,1,4,4,1,2,3,3,2), ncol = 2, byrow = T)
-id4740 <- matrix(c(3,1,4,2,1,4,2,3), ncol = 2, byrow = T)
-id4742 <- matrix(c(3,1,4,2,1,4,2,3,2,1), ncol = 2, byrow = T)
-id4748 <- matrix(c(3,1,4,2,1,4,2,3,4,1), ncol = 2, byrow = T)
-id4750 <- matrix(c(3,1,2,1,1,4,4,1,2,3,4,2), ncol = 2, byrow = T)
-id4758 <- matrix(c(1,2,2,1,3,1,4,2,2,3,1,4), ncol = 2, byrow = T)
-id4764 <- matrix(c(1,2,3,1,2,3,1,4,4,1,4,2), ncol = 2, byrow = T)
-id4766 <- matrix(c(1,2,2,1,1,4,4,1,3,1,2,3,4,2), ncol = 2, byrow = T)
-id4812 <- matrix(c(3,1,4,2,1,4,4,1,2,3,3,2), ncol = 2, byrow = T)
-id4814 <- matrix(c(3,1,4,2,1,4,4,1,2,3,3,2,2,1), ncol = 2, byrow = T)
-id4830 <- matrix(c(3,1,4,2,1,4,4,1,2,3,3,2,2,1,1,2), ncol = 2, byrow = T)
-id4946 <- matrix(c(1,2,2,1,1,3,1,4,2,3,3,2), ncol = 2, byrow = T)
-id4950 <- matrix(c(1,2,2,1,1,3,3,1,2,3,3,2,1,4), ncol = 2, byrow = T)
-id4952 <- matrix(c(1,2,1,3,1,4,4,1,2,3,3,2), ncol = 2, byrow = T)
-id4954 <- matrix(c(1,2,1,3,1,4,4,1,2,3,3,2,2,1), ncol = 2, byrow = T)
-id4958 <- matrix(c(1,2,1,3,1,4,4,1,2,3,3,2,2,1,3,1), ncol = 2, byrow = T)
-id4994 <- matrix(c(2,1,1,3,1,4,2,3,4,2), ncol = 2, byrow = T)
-id4998 <- matrix(c(2,1,1,3,1,4,2,3,4,2,3,1), ncol = 2, byrow = T)
-id5002 <- matrix(c(2,1,1,3,1,4,2,3,4,2,4,1), ncol = 2, byrow = T)
-id5004 <- matrix(c(1,3,3,1,1,4,4,1,2,3,4,2), ncol = 2, byrow = T)
-id5006 <- matrix(c(1,3,3,1,2,1,1,4,4,1,2,3,4,2), ncol = 2, byrow = T)
-id5010 <- matrix(c(1,3,1,2,2,1,1,4,2,3,4,2), ncol = 2, byrow = T)
-id5012 <- matrix(c(1,3,3,1,1,2,1,4,2,3,4,2), ncol = 2, byrow = T)
-id5014 <- matrix(c(1,3,3,1,1,2,2,1,1,4,2,3,4,2), ncol = 2, byrow = T)
-id5016 <- matrix(c(1,3,1,2,1,4,4,1,2,3,4,2), ncol = 2, byrow = T)
-id5018 <- matrix(c(1,2,2,1,1,3,1,4,4,1,2,3,4,2), ncol = 2, byrow = T)
-id5020 <- matrix(c(1,3,3,1,1,4,4,1,1,2,2,3,4,2), ncol = 2, byrow = T)
-id5022 <- matrix(c(1,2,2,1,1,3,3,1,1,4,4,1,2,3,4,2), ncol = 2, byrow = T)
-id5058 <- matrix(c(1,3,2,1,1,4,2,3,3,2,4,2), ncol = 2, byrow = T)
-id5062 <- matrix(c(1,3,3,1,2,1,1,4,2,3,3,2,4,2), ncol = 2, byrow = T)
-id5064 <- matrix(c(1,3,1,4,2,3,3,2,4,1,4,2), ncol = 2, byrow = T)
-id5066 <- matrix(c(1,3,1,4,4,1,2,3,3,2,2,1,4,2), ncol = 2, byrow = T)
-id5068 <- matrix(c(1,3,3,1,1,4,4,1,2,3,3,2,4,2), ncol = 2, byrow = T)
-id5070 <- matrix(c(1,3,3,1,1,4,4,1,2,3,3,2,4,2,2,1), ncol = 2, byrow = T)
-id5074 <- matrix(c(1,3,1,4,4,1,2,3,3,2,4,2,2,1,1,2), ncol = 2, byrow = T)
-id5076 <- matrix(c(1,3,3,1,2,3,3,2,1,4,1,2,4,2), ncol = 2, byrow = T)
-id5078 <- matrix(c(1,3,3,1,1,2,2,1,2,3,3,2,4,2,1,4), ncol = 2, byrow = T)
-id5080 <- matrix(c(1,3,1,2,2,3,3,2,4,2,1,4,4,1), ncol = 2, byrow = T)
-id5082 <- matrix(c(1,3,1,2,2,3,3,2,4,2,1,4,4,1,2,1), ncol = 2, byrow = T)
-id5084 <- matrix(c(1,3,1,2,2,3,3,2,4,2,1,4,4,1,3,1), ncol = 2, byrow = T)
-is5086 <- matrix(c(1,3,3,1,1,2,2,1,2,3,3,2,4,2,1,4,4,1), ncol = 2, byrow = T)
-id6342 <- matrix(c(2,1,3,1,1,4,3,2,4,3,4,2), ncol = 2, byrow = T)
-id6348 <- matrix(c(3,1,3,2,1,4,4,1,4,3,4,2), ncol = 2, byrow = T)
-id6350 <- matrix(c(2,1,1,4,4,1,4,2,4,3,3,2,3,1), ncol = 2, byrow = T)
-id6356 <- matrix(c(1,2,1,4,4,2,4,3,3,2,3,1), ncol = 2, byrow = T)
-id6358 <- matrix(c(1,2,2,1,1,4,4,2,4,3,3,2,3,1), ncol = 2, byrow = T)
-id6364 <- matrix(c(1,2,1,4,4,2,4,3,3,2,3,1,4,1), ncol = 2, byrow = T)
-id6366 <- matrix(c(1,2,1,4,4,2,4,3,3,2,3,1,4,1,2,1), ncol = 2, byrow = T)
-id6550 <- matrix(c(1,3,3,1,1,2,2,1,1,4,4,3,4,2), ncol = 2, byrow = T)
-id6552 <- matrix(c(1,3,1,2,1,4,4,1,4,2,4,3), ncol = 2, byrow = T)
-id6554 <- matrix(c(1,3,1,2,1,4,4,1,4,2,4,3,2,1), ncol = 2, byrow = T)
-id6558 <- matrix(c(1,3,1,2,1,4,4,1,4,2,4,3,2,1,3,1), ncol = 2, byrow = T)
-id6598 <- matrix(c(1,3,3,1,2,1,1,4,3,2,4,3,4,2), ncol = 2, byrow = T)
-id6602 <- matrix(c(1,3,2,1,1,4,4,1,3,2,4,3,4,2), ncol = 2, byrow = T)
-id6604 <- matrix(c(1,3,3,1,1,4,4,1,3,2,4,3,4,2), ncol = 2, byrow = T)
-id6606 <- matrix(c(1,3,3,1,1,4,4,1,2,1,3,2,4,3,4,2), ncol = 2, byrow = T)
-id6614 <- matrix(c(1,3,3,1,1,2,2,1,3,2,1,4,4,2,4,3), ncol = 2, byrow = T)
-id6616 <- matrix(c(1,3,1,2,1,4,4,1,3,2,4,2,4,3), ncol = 2, byrow = T)
-id6618 <- matrix(c(1,2,2,1,1,3,1,4,4,1,3,2,4,2,4,3), ncol = 2, byrow = T)
-id6620 <- matrix(c(1,3,3,1,1,2,1,4,4,1,3,2,4,2,4,3), ncol = 2, byrow = T)
-id6622 <- matrix(c(1,2,2,1,1,3,3,1,1,4,4,1,4,2,4,3), ncol = 2, byrow = T)
-id6854 <- matrix(c(3,1,2,1,1,4,2,3,3,2,4,2,4,3), ncol = 2, byrow = T)
-id6858 <- matrix(c(2,1,2,3,3,2,1,4,4,1,4,2,4,3), ncol = 2, byrow = T)
-id6862 <- matrix(c(3,1,2,1,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T)
-id6870 <- matrix(c(1,2,2,1,3,1,1,4,2,3,3,2,4,2,4,3), ncol = 2, byrow = T)
-id6874 <- matrix(c(1,2,2,1,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T)
-id6876 <- matrix(c(1,2,3,1,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T)
-id6878 <- matrix(c(3,1,1,2,2,1,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T)
-id7126 <- matrix(c(1,3,3,1,1,2,2,1,2,3,3,2,1,4,4,2,4,3), ncol = 2, byrow = T)
-id7128 <- matrix(c(1,3,1,2,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T)
-id7130 <- matrix(c(1,2,2,1,1,3,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T)
-id7134 <- matrix(c(1,2,2,1,1,3,3,1,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T)
-id13142 <- matrix(c(1,2,2,1,1,3,3,1,2,3,3,2,1,4,2,4), ncol = 2, byrow = T)
-id13146 <- matrix(c(1,2,2,1,1,3,1,4,4,1,2,3,3,2,2,4), ncol = 2, byrow = T)
-id13148 <- matrix(c(1,3,3,1,1,2,2,4,1,4,4,1,2,3,3,2), ncol = 2, byrow = T)
-id13150 <- matrix(c(1,3,3,1,1,2,2,1,1,4,4,1,2,3,3,2,2,4), ncol = 2, byrow = T)
-id13260 <- matrix(c(1,3,3,1,2,4,4,2,1,4,4,1,2,3,3,2), ncol = 2, byrow = T)
-id13262 <- matrix(c(1,3,3,1,2,4,4,2,1,4,4,1,2,3,3,2,2,1), ncol = 2, byrow = T)
-id13278 <- matrix(c(1,3,3,1,2,4,4,2,1,4,4,1,2,3,3,2,1,2,2,1), ncol = 2, byrow = T)
-id14678 <- matrix(c(1,3,3,1,2,4,1,4,3,2,1,2,2,1,4,3), ncol = 2, byrow = T)
-id14686 <- matrix(c(1,2,2,1,1,3,3,1,1,4,4,1,3,2,2,4,4,3), ncol = 2, byrow = T)
-id14790 <- matrix(c(1,3,3,1,2,1,1,4,3,2,2,4,4,2,4,3), ncol = 2, byrow = T)
-id14798 <- matrix(c(1,3,3,1,1,4,4,1,3,2,2,1,2,4,4,2,4,3), ncol = 2, byrow = T)
-id14810 <- matrix(c(1,2,2,1,1,3,1,4,4,1,3,2,2,4,4,2,4,3), ncol = 2, byrow = T)
-id14812 <- matrix(c(1,3,3,1,1,2,1,4,4,1,3,2,4,3,4,2,2,4), ncol = 2, byrow = T)
-id14814 <- matrix(c(1,3,3,1,1,2,1,4,4,1,3,2,4,3,4,2,2,4,2,1), ncol = 2, byrow = T)
-id15258 <- matrix(c(1,3,1,4,4,1,1,2,2,1,2,3,2,4,4,2,4,3), ncol = 2, byrow = T)
-id15262 <- matrix(c(1,3,3,1,1,4,4,1,1,2,2,1,2,3,2,4,4,2,4,3), ncol = 2, byrow = T)
-id15310 <- matrix(c(1,3,3,1,2,1,1,4,4,1,2,3,3,2,4,3), ncol = 2, byrow = T)
-id15326 <- matrix(c(1,3,3,1,1,2,2,1,1,4,4,1,2,3,3,2,2,4,4,2,4,3), ncol = 2, byrow = T)
-id31710 <- matrix(c(1,3,3,1,1,2,2,1,1,4,4,1,2,3,3,2,2,4,4,2,4,3,3,4), ncol = 2, byrow = T)
+  
+fournode <- list(
+  id14 = matrix(c(2,1,3,1,4,1), ncol = 2, byrow = T),
+  id28 = matrix(c(3,1,4,1,1,2), ncol = 2, byrow = T),
+  id30 = matrix(c(3,1,4,1,1,2,2,1), ncol = 2, byrow = T),
+  id74 = matrix(c(2,1,3,2,4,1), ncol = 2, byrow = T),
+  id76 = matrix(c(3,1,3,2,4,1), ncol = 2, byrow = T),
+  id78 = matrix(c(2,1,3,1,4,1,3,2), ncol = 2, byrow = T),
+  id90 = matrix(c(2,1,1,2,3,2,4,1), ncol = 2, byrow = T),
+  id92 = matrix(c(1,2,3,1,3,2,4,1), ncol = 2, byrow = T), 
+  id94 = matrix(c(1,2,2,1,4,1,3,1,3,2), ncol = 2, byrow = T),
+  id204 = matrix(c(3,1,3,2,4,1,4,2), ncol = 2, byrow = T),
+  id206 = matrix(c(2,1,3,1,4,1,3,2,4,2), ncol = 2, byrow = T),
+  id222 = matrix(c(2,1,3,1,4,1,3,2,4,2,1,2), ncol = 2, byrow = T),
+  id280 = matrix(c(1,2,1,3,4,1), ncol = 2, byrow = T),
+  id282 = matrix(c(1,2,1,3,4,1,2,1), ncol = 2, byrow = T),
+  id286 = matrix(c(1,2,1,3,4,1,2,1,3,1), ncol = 2, byrow = T),
+  id328 = matrix(c(1,3,4,1,3,2), ncol = 2, byrow = T),
+  id330 = matrix(c(2,1,1,3,4,1,3,2), ncol = 2, byrow = T),
+  id332 = matrix(c(4,1,3,2,3,1,1,3), ncol = 2, byrow = T),
+  id334 = matrix(c(4,1,3,2,3,1,1,3,2,1), ncol = 2, byrow = T),
+  id344 = matrix(c(4,1,3,2,3,1,1,3,1,2), ncol = 2, byrow = T),
+  id346 = matrix(c(2,1,1,3,4,1,3,2,1,2), ncol = 2, byrow = T),
+  id348 = matrix(c(4,1,3,2,3,1,1,3,1,2), ncol = 2, byrow = T),
+  id350 = matrix(c(4,1,3,2,3,1,1,3,2,1,1,2), ncol = 2, byrow = T),
+  id390 = matrix(c(2,1,1,3,3,1,4,2), ncol = 2, byrow = T),
+  id392 = matrix(c(1,3,4,1,4,2), ncol = 2, byrow = T),
+  id394 = matrix(c(2,1,1,3,4,1,4,2), ncol = 2, byrow = T),
+  id396 = matrix(c(3,1,1,3,4,1,4,2), ncol = 2, byrow = T),
+  id398 = matrix(c(2,1,1,3,3,1,4,2,4,1), ncol = 2, byrow = T),
+  id404 = matrix(c(1,3,3,1,1,2,4,2), ncol = 2, byrow = T),
+  id406 = matrix(c(1,3,3,1,1,2,2,1,4,2), ncol = 2, byrow = T),
+  id408 = matrix(c(1,3,2,1,4,1,4,2), ncol = 2, byrow = T),
+  id410 = matrix(c(2,1,1,3,4,2,4,1,1,2), ncol = 2, byrow = T),
+  id412 = matrix(c(1,2,3,1,1,3,4,1,4,2), ncol = 2, byrow = T),
+  id414 = matrix(c(1,2,3,1,1,3,4,1,4,2,2,1), ncol = 2, byrow = T),
+  id454 = matrix(c(2,1,1,3,3,1,3,2,4,2), ncol = 2, byrow = T),
+  id456 = matrix(c(1,3,4,1,2,3,4,2), ncol = 2, byrow = T),
+  id458 = matrix(c(1,3,2,1,4,1,4,2,3,2), ncol = 2, byrow = T),
+  id460 = matrix(c(1,3,3,1,4,1,4,2,3,2), ncol = 2, byrow = T),
+  id462 = matrix(c(2,1,1,3,3,1,3,2,4,1,4,2), ncol = 2, byrow = T),
+  id468 = matrix(c(1,2,1,3,3,1,3,2,4,2), ncol = 2, byrow = T),
+  id470 = matrix(c(1,3,3,1,1,2,2,1,3,2,4,1,4,2), ncol = 2, byrow = T),
+  id472 = matrix(c(1,3,1,2,4,1,4,2,3,2), ncol = 2, byrow = T),
+  id474 = matrix(c(1,3,1,2,2,1,3,2,4,1,4,2), ncol = 2, byrow = T),
+  id476 = matrix(c(1,3,3,1,1,2,3,2,4,1,4,2), ncol = 2, byrow = T),
+  id478 = matrix(c(1,3,3,1,1,2,2,1,3,2,4,1,4,2), ncol = 2, byrow = T),
+  id856 = matrix(c(1,3,1,2,2,3,3,2,4,1), ncol = 2, byrow = T),
+  id858 = matrix(c(1,3,1,2,2,1,2,3,3,2,4,1), ncol = 2, byrow = T),
+  id862 = matrix(c(1,3,3,1,1,2,2,1,2,3,3,2,4,1), ncol = 2, byrow = T),
+  id904 = matrix(c(1,3,2,3,4,1,4,2), ncol = 2, byrow = T),
+  id906 = matrix(c(1,3,2,1,2,3,4,1,4,2), ncol = 2, byrow = T),
+  id908 = matrix(c(1,3,3,1,4,1,4,2,2,3), ncol = 2, byrow = T),
+  id910 = matrix(c(1,3,3,1,2,1,2,3,4,1,4,2), ncol = 2, byrow = T),
+  id922 = matrix(c(1,3,1,2,2,1,2,3,4,1,4,2), ncol = 2, byrow = T),
+  id924 = matrix(c(1,3,3,1,1,2,2,3,4,1,4,2), ncol = 2, byrow = T),
+  id926 = matrix(c(1,3,3,1,1,2,2,1,4,1,4,2,2,3), ncol = 2, byrow = T),
+  id972 = matrix(c(1,3,3,1,2,3,3,2,4,1,4,2), ncol = 2, byrow = T),
+  id974 = matrix(c(1,3,3,1,2,1,2,3,3,2,4,1,4,2), ncol = 2, byrow = T),
+  id990 = matrix(c(1,3,3,1,1,2,2,1,2,3,3,2,4,1,4,2), ncol = 2, byrow = T),
+  id2184 = matrix(c(4,1,4,2,4,3), ncol = 2, byrow = T),
+  id2186 = matrix(c(4,1,4,2,4,3,2,1), ncol = 2, byrow = T),
+  id2190 = matrix(c(4,1,4,2,4,3,2,1,3,1), ncol = 2, byrow = T),
+  id2202 = matrix(c(1,2,2,1,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id2204 = matrix(c(3,1,1,2,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id2206 = matrix(c(1,2,2,1,3,1,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id2252 = matrix(c(3,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id2254 = matrix(c(3,1,2,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id2270 = matrix(c(1,2,2,1,3,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id2458 = matrix(c(1,2,2,1,1,3,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id2462 = matrix(c(1,3,3,1,1,2,2,1,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id2506 = matrix(c(1,3,2,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id2510 = matrix(c(1,3,3,1,2,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id2524 = matrix(c(1,2,1,3,3,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id2526 = matrix(c(1,2,2,1,1,3,3,1,3,2,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id3038 = matrix(c(1,2,2,1,1,3,3,1,3,2,2,3,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id4370 = matrix(c(1,3,1,2,2,1,4,1), ncol = 2, byrow = T),
+  id4374 = matrix(c(1,3,3,1,1,2,2,1,4,1), ncol = 2, byrow = T),
+  id4382 = matrix(c(1,2,2,1,1,3,3,1,1,4,4,1), ncol = 2, byrow = T),
+  id4418 = matrix(c(1,3,2,1,1,4,3,2), ncol = 2, byrow = T),
+  id4420 = matrix(c(1,3,3,1,3,2,1,4), ncol = 2, byrow = T),
+  id4422 = matrix(c(1,3,3,1,3,2,2,1,1,4), ncol = 2, byrow = T),
+  id4424 = matrix(c(1,3,3,2,4,1,1,4), ncol = 2, byrow = T),
+  id4426 = matrix(c(1,3,2,1,3,2,1,4,4,1), ncol = 2, byrow = T),
+  id4428 = matrix(c(1,3,3,1,1,4,4,1,3,2), ncol = 2, byrow = T),
+  id4430 = matrix(c(1,3,3,1,2,1,1,4,4,1,3,2), ncol = 2, byrow = T),
+  id4434 = matrix(c(3,1,1,2,2,1,1,4,3,2), ncol = 2, byrow = T),
+  id4436 = matrix(c(1,3,3,1,1,2,1,4,3,2), ncol = 2, byrow = T),
+  id4438 = matrix(c(1,2,2,1,1,3,3,1,3,2,1,4), ncol = 2, byrow = T),
+  id4440 = matrix(c(1,3,1,2,1,4,4,1,3,2), ncol = 2, byrow = T),
+  id4442 = matrix(c(1,3,1,2,2,1,1,4,4,1,3,2), ncol = 2, byrow = T),
+  id4444 = matrix(c(1,3,3,1,1,4,4,1,1,2,3,2), ncol = 2, byrow = T),
+  id4446 = matrix(c(1,3,3,1,1,4,4,1,1,2,2,1,3,2), ncol = 2, byrow = T),
+  id4546 = matrix(c(1,3,2,1,1,4,4,2,3,2), ncol = 2, byrow = T),
+  id4548 = matrix(c(1,3,3,1,1,4,3,2,4,2), ncol = 2, byrow = T),
+  id4550 = matrix(c(1,3,3,1,2,1,1,4,3,2,4,2), ncol = 2, byrow = T),
+  id4556 = matrix(c(1,3,3,1,1,4,3,2,4,2,4,1), ncol = 2, byrow = T),
+  id4558 = matrix(c(1,3,3,1,1,4,4,1,4,2,2,1,3,2), ncol = 2, byrow = T),
+  id4562 = matrix(c(1,3,1,2,2,1,3,2,4,2,1,4), ncol = 2, byrow = T),
+  id4564 = matrix(c(1,3,3,1,1,2,1,4,3,2,4,2), ncol = 2, byrow = T),
+  id4566 = matrix(c(1,3,3,1,1,2,2,1,3,2,4,2,1,4), ncol = 2, byrow = T),
+  id4572 = matrix(c(1,3,3,1,1,2,3,2,4,2,1,4,4,1), ncol = 2, byrow = T),
+  id4574 = matrix(c(1,2,2,1,1,3,3,1,1,4,4,1,3,2,4,2), ncol = 2, byrow = T),
+  id4678 = matrix(c(3,1,2,1,1,4,3,2,2,3), ncol = 2, byrow = T),
+  id4682 = matrix(c(2,1,1,4,4,1,2,3,3,2), ncol = 2, byrow = T),
+  id4686 = matrix(c(3,1,2,1,1,4,4,1,2,3,3,2), ncol = 2, byrow = T),
+  id4692 = matrix(c(3,1,1,2,1,4,2,3,3,2), ncol = 2, byrow = T),
+  id4694 = matrix(c(1,2,2,1,1,4,2,3,3,2,3,1), ncol = 2, byrow = T),
+  id4698 = matrix(c(1,2,2,1,2,3,3,2,1,4,4,1), ncol = 2, byrow = T),
+  id4700 = matrix(c(3,1,1,2,1,4,4,1,2,3,3,2), ncol = 2, byrow = T),
+  id4702 = matrix(c(3,1,1,2,2,1,1,4,4,1,2,3,3,2), ncol = 2, byrow = T),
+  id4740 = matrix(c(3,1,4,2,1,4,2,3), ncol = 2, byrow = T),
+  id4742 = matrix(c(3,1,4,2,1,4,2,3,2,1), ncol = 2, byrow = T),
+  id4748 = matrix(c(3,1,4,2,1,4,2,3,4,1), ncol = 2, byrow = T),
+  id4750 = matrix(c(3,1,2,1,1,4,4,1,2,3,4,2), ncol = 2, byrow = T),
+  id4758 = matrix(c(1,2,2,1,3,1,4,2,2,3,1,4), ncol = 2, byrow = T),
+  id4764 = matrix(c(1,2,3,1,2,3,1,4,4,1,4,2), ncol = 2, byrow = T),
+  id4766 = matrix(c(1,2,2,1,1,4,4,1,3,1,2,3,4,2), ncol = 2, byrow = T),
+  id4812 = matrix(c(3,1,4,2,1,4,4,1,2,3,3,2), ncol = 2, byrow = T),
+  id4814 = matrix(c(3,1,4,2,1,4,4,1,2,3,3,2,2,1), ncol = 2, byrow = T),
+  id4830 = matrix(c(3,1,4,2,1,4,4,1,2,3,3,2,2,1,1,2), ncol = 2, byrow = T),
+  id4946 = matrix(c(1,2,2,1,1,3,1,4,2,3,3,2), ncol = 2, byrow = T),
+  id4950 = matrix(c(1,2,2,1,1,3,3,1,2,3,3,2,1,4), ncol = 2, byrow = T),
+  id4952 = matrix(c(1,2,1,3,1,4,4,1,2,3,3,2), ncol = 2, byrow = T),
+  id4954 = matrix(c(1,2,1,3,1,4,4,1,2,3,3,2,2,1), ncol = 2, byrow = T),
+  id4958 = matrix(c(1,2,1,3,1,4,4,1,2,3,3,2,2,1,3,1), ncol = 2, byrow = T),
+  id4994 = matrix(c(2,1,1,3,1,4,2,3,4,2), ncol = 2, byrow = T),
+  id4998 = matrix(c(2,1,1,3,1,4,2,3,4,2,3,1), ncol = 2, byrow = T),
+  id5002 = matrix(c(2,1,1,3,1,4,2,3,4,2,4,1), ncol = 2, byrow = T),
+  id5004 = matrix(c(1,3,3,1,1,4,4,1,2,3,4,2), ncol = 2, byrow = T),
+  id5006 = matrix(c(1,3,3,1,2,1,1,4,4,1,2,3,4,2), ncol = 2, byrow = T),
+  id5010 = matrix(c(1,3,1,2,2,1,1,4,2,3,4,2), ncol = 2, byrow = T),
+  id5012 = matrix(c(1,3,3,1,1,2,1,4,2,3,4,2), ncol = 2, byrow = T),
+  id5014 = matrix(c(1,3,3,1,1,2,2,1,1,4,2,3,4,2), ncol = 2, byrow = T),
+  id5016 = matrix(c(1,3,1,2,1,4,4,1,2,3,4,2), ncol = 2, byrow = T),
+  id5018 = matrix(c(1,2,2,1,1,3,1,4,4,1,2,3,4,2), ncol = 2, byrow = T),
+  id5020 = matrix(c(1,3,3,1,1,4,4,1,1,2,2,3,4,2), ncol = 2, byrow = T),
+  id5022 = matrix(c(1,2,2,1,1,3,3,1,1,4,4,1,2,3,4,2), ncol = 2, byrow = T),
+  id5058 = matrix(c(1,3,2,1,1,4,2,3,3,2,4,2), ncol = 2, byrow = T),
+  id5062 = matrix(c(1,3,3,1,2,1,1,4,2,3,3,2,4,2), ncol = 2, byrow = T),
+  id5064 = matrix(c(1,3,1,4,2,3,3,2,4,1,4,2), ncol = 2, byrow = T),
+  id5066 = matrix(c(1,3,1,4,4,1,2,3,3,2,2,1,4,2), ncol = 2, byrow = T),
+  id5068 = matrix(c(1,3,3,1,1,4,4,1,2,3,3,2,4,2), ncol = 2, byrow = T),
+  id5070 = matrix(c(1,3,3,1,1,4,4,1,2,3,3,2,4,2,2,1), ncol = 2, byrow = T),
+  id5074 = matrix(c(1,3,1,4,4,1,2,3,3,2,4,2,2,1,1,2), ncol = 2, byrow = T),
+  id5076 = matrix(c(1,3,3,1,2,3,3,2,1,4,1,2,4,2), ncol = 2, byrow = T),
+  id5078 = matrix(c(1,3,3,1,1,2,2,1,2,3,3,2,4,2,1,4), ncol = 2, byrow = T),
+  id5080 = matrix(c(1,3,1,2,2,3,3,2,4,2,1,4,4,1), ncol = 2, byrow = T),
+  id5082 = matrix(c(1,3,1,2,2,3,3,2,4,2,1,4,4,1,2,1), ncol = 2, byrow = T),
+  id5084 = matrix(c(1,3,1,2,2,3,3,2,4,2,1,4,4,1,3,1), ncol = 2, byrow = T),
+  is5086 = matrix(c(1,3,3,1,1,2,2,1,2,3,3,2,4,2,1,4,4,1), ncol = 2, byrow = T),
+  id6342 = matrix(c(2,1,3,1,1,4,3,2,4,3,4,2), ncol = 2, byrow = T),
+  id6348 = matrix(c(3,1,3,2,1,4,4,1,4,3,4,2), ncol = 2, byrow = T),
+  id6350 = matrix(c(2,1,1,4,4,1,4,2,4,3,3,2,3,1), ncol = 2, byrow = T),
+  id6356 = matrix(c(1,2,1,4,4,2,4,3,3,2,3,1), ncol = 2, byrow = T),
+  id6358 = matrix(c(1,2,2,1,1,4,4,2,4,3,3,2,3,1), ncol = 2, byrow = T),
+  id6364 = matrix(c(1,2,1,4,4,2,4,3,3,2,3,1,4,1), ncol = 2, byrow = T),
+  id6366 = matrix(c(1,2,1,4,4,2,4,3,3,2,3,1,4,1,2,1), ncol = 2, byrow = T),
+  id6550 = matrix(c(1,3,3,1,1,2,2,1,1,4,4,3,4,2), ncol = 2, byrow = T),
+  id6552 = matrix(c(1,3,1,2,1,4,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id6554 = matrix(c(1,3,1,2,1,4,4,1,4,2,4,3,2,1), ncol = 2, byrow = T),
+  id6558 = matrix(c(1,3,1,2,1,4,4,1,4,2,4,3,2,1,3,1), ncol = 2, byrow = T),
+  id6598 = matrix(c(1,3,3,1,2,1,1,4,3,2,4,3,4,2), ncol = 2, byrow = T),
+  id6602 = matrix(c(1,3,2,1,1,4,4,1,3,2,4,3,4,2), ncol = 2, byrow = T),
+  id6604 = matrix(c(1,3,3,1,1,4,4,1,3,2,4,3,4,2), ncol = 2, byrow = T),
+  id6606 = matrix(c(1,3,3,1,1,4,4,1,2,1,3,2,4,3,4,2), ncol = 2, byrow = T),
+  id6614 = matrix(c(1,3,3,1,1,2,2,1,3,2,1,4,4,2,4,3), ncol = 2, byrow = T),
+  id6616 = matrix(c(1,3,1,2,1,4,4,1,3,2,4,2,4,3), ncol = 2, byrow = T),
+  id6618 = matrix(c(1,2,2,1,1,3,1,4,4,1,3,2,4,2,4,3), ncol = 2, byrow = T),
+  id6620 = matrix(c(1,3,3,1,1,2,1,4,4,1,3,2,4,2,4,3), ncol = 2, byrow = T),
+  id6622 = matrix(c(1,2,2,1,1,3,3,1,1,4,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id6854 = matrix(c(3,1,2,1,1,4,2,3,3,2,4,2,4,3), ncol = 2, byrow = T),
+  id6858 = matrix(c(2,1,2,3,3,2,1,4,4,1,4,2,4,3), ncol = 2, byrow = T),
+  id6862 = matrix(c(3,1,2,1,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T),
+  id6870 = matrix(c(1,2,2,1,3,1,1,4,2,3,3,2,4,2,4,3), ncol = 2, byrow = T),
+  id6874 = matrix(c(1,2,2,1,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T),
+  id6876 = matrix(c(1,2,3,1,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T),
+  id6878 = matrix(c(3,1,1,2,2,1,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T),
+  id7126 = matrix(c(1,3,3,1,1,2,2,1,2,3,3,2,1,4,4,2,4,3), ncol = 2, byrow = T),
+  id7128 = matrix(c(1,3,1,2,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T),
+  id7130 = matrix(c(1,2,2,1,1,3,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T),
+  id7134 = matrix(c(1,2,2,1,1,3,3,1,1,4,4,1,2,3,3,2,4,2,4,3), ncol = 2, byrow = T),
+  id13142 = matrix(c(1,2,2,1,1,3,3,1,2,3,3,2,1,4,2,4), ncol = 2, byrow = T),
+  id13146 = matrix(c(1,2,2,1,1,3,1,4,4,1,2,3,3,2,2,4), ncol = 2, byrow = T),
+  id13148 = matrix(c(1,3,3,1,1,2,2,4,1,4,4,1,2,3,3,2), ncol = 2, byrow = T),
+  id13150 = matrix(c(1,3,3,1,1,2,2,1,1,4,4,1,2,3,3,2,2,4), ncol = 2, byrow = T),
+  id13260 = matrix(c(1,3,3,1,2,4,4,2,1,4,4,1,2,3,3,2), ncol = 2, byrow = T),
+  id13262 = matrix(c(1,3,3,1,2,4,4,2,1,4,4,1,2,3,3,2,2,1), ncol = 2, byrow = T),
+  id13278 = matrix(c(1,3,3,1,2,4,4,2,1,4,4,1,2,3,3,2,1,2,2,1), ncol = 2, byrow = T),
+  id14678 = matrix(c(1,3,3,1,2,4,1,4,3,2,1,2,2,1,4,3), ncol = 2, byrow = T),
+  id14686 = matrix(c(1,2,2,1,1,3,3,1,1,4,4,1,3,2,2,4,4,3), ncol = 2, byrow = T),
+  id14790 = matrix(c(1,3,3,1,2,1,1,4,3,2,2,4,4,2,4,3), ncol = 2, byrow = T),
+  id14798 = matrix(c(1,3,3,1,1,4,4,1,3,2,2,1,2,4,4,2,4,3), ncol = 2, byrow = T),
+  id14810 = matrix(c(1,2,2,1,1,3,1,4,4,1,3,2,2,4,4,2,4,3), ncol = 2, byrow = T),
+  id14812 = matrix(c(1,3,3,1,1,2,1,4,4,1,3,2,4,3,4,2,2,4), ncol = 2, byrow = T),
+  id14814 = matrix(c(1,3,3,1,1,2,1,4,4,1,3,2,4,3,4,2,2,4,2,1), ncol = 2, byrow = T),
+  id15258 = matrix(c(1,3,1,4,4,1,1,2,2,1,2,3,2,4,4,2,4,3), ncol = 2, byrow = T),
+  id15262 = matrix(c(1,3,3,1,1,4,4,1,1,2,2,1,2,3,2,4,4,2,4,3), ncol = 2, byrow = T),
+  id15310 = matrix(c(1,3,3,1,2,1,1,4,4,1,2,3,3,2,4,3), ncol = 2, byrow = T),
+  id15326 = matrix(c(1,3,3,1,1,2,2,1,1,4,4,1,2,3,3,2,2,4,4,2,4,3), ncol = 2, byrow = T),
+  id31710 = matrix(c(1,3,3,1,1,2,2,1,1,4,4,1,2,3,3,2,2,4,4,2,4,3,3,4), ncol = 2, byrow = T)
+)
 
-# <- matrix(c(), ncol = 2, byrow = T)
+# Convert adjacency lists into graph objects
+require(igraph)
+fournode.gr <- lapply(fournode, graph.edgelist)
+
+# Create adjacency matrices
+fournode.am <- lapply(fournode.gr, get.adjacency, sparse = F)
