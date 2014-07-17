@@ -1,4 +1,4 @@
-  
+# Motif Dictionary
 fournode <- list(
   id14 = matrix(c(2,1,3,1,4,1), ncol = 2, byrow = T),
   id28 = matrix(c(3,1,4,1,1,2), ncol = 2, byrow = T),
@@ -201,17 +201,63 @@ fournode <- list(
   id31710 = matrix(c(1,3,3,1,1,2,2,1,1,4,4,1,2,3,3,2,2,4,4,2,4,3,3,4), ncol = 2, byrow = T)
 )
 
+
+#fivenode <- list()
+#for(i in 1:500){
+#  connect = FALSE
+#  while(!connect){
+#    e <- sample(4:20, 1, prob = c(rep(.1, 7), rep(.03, 10)))
+#    fivenode[[i]] <- erdos.renyi.game(5, p.or.m = e, type = "gnm", directed = T)  
+#    
+#    comp <- c()
+#    for(j in 1:length(fivenode)){
+#      if(length(fivenode) == 1){break}
+#      if(j > 1){j <- j-1}
+#      test <- sum(get.adjacency(fivenode[[i]]) == get.adjacency(fivenode[[j]])) == 25
+#      comp <- c(comp, test)
+#    }
+#    if(sum(comp) >= 1){connect = FALSE}else{connect <- is.connected(fivenode[[i]])}
+#  }
+#  print(i)
+#}
+
+
 # Convert adjacency lists into graph objects
 require(igraph)
 fournode.gr <- lapply(fournode, graph.edgelist)
 
 # Create adjacency matrices
 fournode.am <- lapply(fournode.gr, get.adjacency, sparse = F)
-
+#fivenode.am <- lapply(fivenode, get.adjacency, sparse = F)
 
 # motif_counter function from "web_functions.R"
+motif_counter <- function(graph.lists, webs = NULL){
+  require(igraph)
+  
+  if(!is.list(graph.lists)){
+    stop("The input should be a list of graph objects")
+  }
+  
+  triad.count <- lapply(graph.lists, triad.census)
+  triad.matrix <- matrix(unlist(triad.count), nrow = length(graph.lists), ncol = 16, byrow = T)
+  colnames(triad.matrix) <- c("empty", "single", "mutual", "s5", "s4", "s1", "d4",
+                              "d3", "s2", "s3","d8", "d2", "d1", "d5", "d7", "d6")
+  
+  triad.df <- as.data.frame(triad.matrix)
+  
+  motif.data.frame <- data.frame(web = webs, s1 = triad.df$s1, s2 = triad.df$s2, s3 = triad.df$s3, s4 = triad.df$s4, 
+                                 s5 = triad.df$s5, d1 = triad.df$d1, d2 = triad.df$d2, d3 = triad.df$d3, d4 = triad.df$d4,
+                                 d5 = triad.df$d5, d6 = triad.df$d6, d7 = triad.df$d7, d8 = triad.df$d8)
+  
+  return(motif.data.frame)
+}
+
+# count motifs
 mot.4 <- motif_counter(fournode.gr, names(fournode.gr))
 subcount.4 <- mot.4[,2:14]
+
+#mot.5 <- motif_counter(fivenode, 1:301)
+#subcount.5 <- mot.5[,2:14]
 
 # Stability analysis functions from "motifAnalysis.R"
 conversion <- function(tm){
@@ -277,3 +323,33 @@ z <- (sub2 - m)/s
 
 z.test <-  as.matrix(z)
 summary(glm(qss.4~z.test, family = "quasibinomial"))
+
+results2 <- cbind(results, z)
+
+
+# five node stability
+fiveN.co <- lapply(fivenode.am, conversion)
+system.time(
+  emat5 <- eig.analysis(1000, fiveN.co)
+)
+
+qss.5 <- apply(emat5, 2, function(x){sum(x < 0)/length(x)})
+
+
+num.edges5 <- sapply(fivenode.am, sum)
+
+table(num.edges5)
+
+
+results5 <- data.frame(edges = num.edges5, qss = qss.5)
+
+sub5 <- cbind(subcount.5[,1:5], other = rowSums(subcount.5[,6:13]))
+
+m5 <- apply(sub5, 2, mean)
+s5 <- apply(sub5, 2, sd)
+
+
+z5 <- (sub5 - m5)/s5
+
+z.test5 <-  as.matrix(z5)
+summary(glm(qss.5~z.test5, family = "quasibinomial"))
