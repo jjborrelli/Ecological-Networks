@@ -18,8 +18,8 @@ get_webs <- function(directory){
   setwd(directory)
   
   # Get the list of files
-  edgelists.files <- as.list(list.files())
-  names(edgelists.files) <- list.files()
+  edgelists.files <- as.list(list.files()[grep(".csv",list.files())])
+  names(edgelists.files) <- list.files()[grep(".csv",list.files())]
   
   # Get the names of the food webs without the ".csv" extension
   webnames <- unlist(lapply(edgelists.files, strsplit, split = ".", fixed = T))

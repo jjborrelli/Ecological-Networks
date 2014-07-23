@@ -322,7 +322,7 @@ s <- apply(sub2, 2, sd)
 z <- (sub2 - m)/s
 
 z.test <-  as.matrix(z)
-summary(glm(qss.4~z.test, family = "quasibinomial"))
+fit <- glm(cbind(qss.4*1000, 1000-(qss.4*1000))~z.test, family = "binomial")
 
 results2 <- cbind(results, z)
 
