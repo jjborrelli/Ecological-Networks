@@ -3,7 +3,7 @@
 require(igraph)
 require(NetIndices)
 
-setwd("~/Dropbox/Food Web Database/Food_Web/Quantitative Network/")
+setwd("C:/Users/borre_000/Dropbox/Food Web Database/Food_Web/Quantitative Network/")
 bmatrix <- read.csv("interactionsmarine.csv", header = TRUE, row.names = 1)
 bmatrix <- as.matrix(bmatrix)
 bgraph <- graph.adjacency(bmatrix, mode = "directed", weighted = TRUE)
