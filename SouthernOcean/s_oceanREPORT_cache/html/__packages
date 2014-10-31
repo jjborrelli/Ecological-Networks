@@ -1,0 +1,9 @@
+base
+data.table
+devtools
+ggplot2
+igraph
+knitr
+MASS
+NetIndices
+reshape2

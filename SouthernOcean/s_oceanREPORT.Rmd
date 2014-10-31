@@ -1,6 +1,10 @@
+---
+output: html_document
+---
 The Southern Ocean Food Web
 ========================================================
 ```{r chunks, echo = F}
+require(knitr)
 opts_chunk$set(message = F, comment = NA, fig.width = 7, fig.height = 7)
 ```
 
@@ -14,21 +18,22 @@ require(reshape2)
 require(ggplot2)
 require(devtools)
 require(vegan)
+require(data.table)
 ```
 
 Source code for functions to describe web properties
 
 ```{r SOURCEcode}
-url <- "https://raw.github.com/jjborrelli/Ecological-Networks/master/Food%20Webs/Rscripts/web_functions.R"
+url <- "https://raw.githubusercontent.com/jjborrelli/Ecological-Networks/master/FoodWebs/Rscripts/web_functions.R"
 source_url(url)
 ```
 
 
 Load in the data
 
-```{r readDATA}
-#s.ocean <- read.csv("http://esapubs.org/archive/ecol/E092/097/diet.csv")
-s.ocean <- read.csv("~/Downloads/diet.csv")
+```{r readDATA, cache = T}
+s.ocean <- read.csv("http://esapubs.org/archive/ecol/E092/097/diet.csv")
+#s.ocean <- read.csv("~/Downloads/diet.csv")
 ```
 
 ## Whole Southern Ocean
@@ -129,9 +134,7 @@ dd + scale_y_continuous(limits = c(0, 0.12)) + theme(legend.position = "none")
 
 
 ```{r}
-#motif_counter(list(SOgraph), webs = "Southern Ocean")
-#pSO <- permatfull(SOadjacency, fixedmar = "row", mtype = "prab", times = 100)
-
+motif_counter(list(SOgraph), webs = "Southern Ocean")
 ```
 
 
@@ -142,7 +145,7 @@ dd + scale_y_continuous(limits = c(0, 0.12)) + theme(legend.position = "none")
 The following code splits up the dataframe by the location column. The resulting 228 graph objects get stored in `location.g`. _NOTE: the first location is a blank (`" "`) indicating that there are some rows without a location_  
 
 ```{r locationSPLIT}
-places <- read.csv("~/Desktop/locationLEVELS.csv")
+places <- read.csv("C:/Users/jjborrelli/Desktop/GitHub/Ecological-Networks/SouthernOcean/locationLEVELS.csv")
 placesC <- c()
 for(i in 1:228){
   placesC[i] <- as.character(places[[1]][i])
@@ -296,3 +299,14 @@ ggplot(web.props2) + geom_histogram(aes(x = N), binwidth = 10)
 ```{r, fig.cap = "Plot connectance against size for years"}
 ggplot(web.props2) + geom_point(aes(x = N, y = C))
 ```
+
+# Variation: 1990-2000
+
+```{r}
+wp2 <- web.props2[25:35,]
+ytind <- lapply(year.g[25:35], get.adjacency, sparse = F)
+ytind <- lapply(ytind, TrophInd)
+dtind <- cbind(rep(wp2$Year, sapply(ytind, nrow)), rbindlist(ytind))
+ggplot(dtind, aes(x = TL, y = ..density..)) + geom_histogram(binwidth = .5) + facet_wrap(~V1)
+```
+
