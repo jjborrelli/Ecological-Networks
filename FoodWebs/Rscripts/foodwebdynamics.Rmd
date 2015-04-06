@@ -1,0 +1,61 @@
+---
+title: "Food Web Dynamics"
+author: "Jonathan J. Borrelli"
+date: "Wednesday, January 21, 2015"
+output: 
+  html_document:
+    toc: yes
+    number_sections: yes
+---
+
+# Predator-prey dynamics 
+
+The general form of predator prey dynamics follows the equations is as follows:
+
+$$
+\frac{dN_i(t)}{dt} = \lambda \sum_{j}N_i(t)g_{ij}(t) - \sum_{j}N_j(t)g_{ji}(t) - d_iN_i(t) - \sum_{j}\alpha_{ij}N_i(t)N_j(t)
+$$
+
+Where $\lambda$ = the efficiency of energy transfer and $d$ is the death rate.
+
+Thus,
+
+$$
+\lambda \sum_{j}N_i(t)g_{ij}(t)
+$$
+
+represents population growth due to food consumption, and 
+
+$$
+\sum_{j}N_j(t)g_{ji}(t)
+$$
+
+is population decline due to predation. The last term, 
+
+$$
+\sum_{j}\alpha_{ij}N_i(t)N_j(t)
+$$
+
+describes the direct interference competition between two predators *i* and *j*. 
+
+## Functional Response
+
+The functional response $g_{ij}(t)$ is the same as used by Drossel *et al.* 2001.
+
+$$
+g_{ij}(t) = \frac{a_{ij}f_{ij}(t)N_j(t)}{bN_j(t) + \sum_{k}\alpha_{ki}a_{kj}f_{kj}(t)N_k(t)}
+$$
+
+The summation in the denominator of the functional response is the sum over all species *k* that are predator of *j*. The competition strength $\alpha_{ik}$ is equal to one for all $i = k$ and less than one for all $i \neq k$. The term $f_{ij}(t)$ is the fraction of effort that species *i* puts into preying on species *j*. 
+
+$$
+f_{ij}(t) = \frac{g_{ij}(t)}{\sum_kg_{ik}(t)}
+$$
+
+This condition makes it so that no individual can increase its energy intake by putting more effort into a different prey. 
+
+### Coding the functional response
+```{r funcRESP}
+g.ij <- function()
+```
+
