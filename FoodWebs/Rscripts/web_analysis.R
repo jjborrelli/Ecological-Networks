@@ -51,14 +51,29 @@ hist(node.props$TL, breaks = 40, freq =F)
 plot(node.props$OI ~ node.props$TL)
 
 # ggplot of distribution of trophic positions equal or higher than 2
-tc.plot<-qplot(node.props$TL[consumers], binwidth = .8, geom = "histogram", 
+tc.plot<-qplot(node.props$TL[consumers], binwidth = 1, geom = "histogram", 
              xlab = "Trophic Position", ylab = "Frequency")
 tc.plot <- tc.plot + theme(axis.title.x = element_text(size = 20))
 tc.plot <- tc.plot + theme(axis.title.y = element_text(size = 20))
 tc.plot <- tc.plot + theme(axis.text.x = element_text(size = 15))
 tc.plot <- tc.plot + theme(axis.text.y = element_text(size = 15))
-tc.plot #+ scale_x_continuous(breaks = 1:6)
+tc.plot + scale_x_continuous(breaks = 2:6)
 
+tindex <- list()
+for(i in 1:length(web.matrices)){
+  p <- permutes_rc(web.matrices[[i]], 100)
+  troph <- sapply(p, function(x){matrix(TrophInd(x)$TL, nrow = 1)})
+  name <- rep(names(web.matrices)[i], nrow(troph))
+  tindex[[i]] <- data.frame(troph, web = name)
+  print(i)
+}
+
+rand <- rbindlist(lapply(tindex, function(x){data.frame(tl = apply(x[,-ncol(x)], 1, mean))}))
+sdrand <- rbindlist(lapply(tindex, function(x){data.frame(tl = apply(x[,-ncol(x)], 1, sd))}))
+
+z <- (node.props$TL[consumers] - rand$tl[consumers])/sdrand
+boxplot(z$tl)
+abline(h=0)
 # For saving the image to desktop, or working directory
 #setwd("~/Desktop") 
 #ggsave(filename = "Trophic_Distribution_3.jpeg", height = 15, width = 15, units = "cm")

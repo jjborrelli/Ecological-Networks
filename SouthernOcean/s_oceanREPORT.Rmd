@@ -8,18 +8,19 @@ opts_chunk$set(message = F, comment = NA, fig.width = 7, fig.height = 7)
 Load required libraries: 
 
 ```{r loadLIB}
-require(igraph)
-require(NetIndices)
-require(reshape2)
-require(ggplot2)
-require(devtools)
-require(vegan)
+library(igraph)
+library(NetIndices)
+library(reshape2)
+library(ggplot2)
+library(devtools)
+library(vegan)
+library(data.table)
 ```
 
 Source code for functions to describe web properties
 
 ```{r SOURCEcode}
-url <- "https://raw.github.com/jjborrelli/Ecological-Networks/master/Food%20Webs/Rscripts/web_functions.R"
+url <- "https://raw.githubusercontent.com/jjborrelli/Ecological-Networks/master/FoodWebs/Rscripts/web_functions.R"
 source_url(url)
 ```
 
@@ -27,8 +28,8 @@ source_url(url)
 Load in the data
 
 ```{r readDATA}
-#s.ocean <- read.csv("http://esapubs.org/archive/ecol/E092/097/diet.csv")
-s.ocean <- read.csv("~/Downloads/diet.csv")
+s.ocean <- read.csv("http://esapubs.org/archive/ecol/E092/097/diet.csv")
+
 ```
 
 ## Whole Southern Ocean
@@ -129,9 +130,12 @@ dd + scale_y_continuous(limits = c(0, 0.12)) + theme(legend.position = "none")
 
 
 ```{r}
-#motif_counter(list(SOgraph), webs = "Southern Ocean")
-#pSO <- permatfull(SOadjacency, fixedmar = "row", mtype = "prab", times = 100)
+mot <- motif_counter(list(SOgraph), webs = "Southern Ocean")
+pSO <- permatfull(SOadjacency, fixedmar = "row", mtype = "prab", times = 100)
+pmot <- motif_counter(lapply(pSO$perm, graph.adjacency), webs = 1:100)
 
+pmean <- apply(pmot[,-1], 2, mean)
+psd <- apply(pmot[,-1], 2, sd)
 ```
 
 
@@ -142,7 +146,7 @@ dd + scale_y_continuous(limits = c(0, 0.12)) + theme(legend.position = "none")
 The following code splits up the dataframe by the location column. The resulting 228 graph objects get stored in `location.g`. _NOTE: the first location is a blank (`" "`) indicating that there are some rows without a location_  
 
 ```{r locationSPLIT}
-places <- read.csv("~/Desktop/locationLEVELS.csv")
+places <- read.csv("C:/Users/borre_000/Desktop/GitHub/Ecological-Networks/SouthernOcean/locationLEVELS.csv")
 placesC <- c()
 for(i in 1:228){
   placesC[i] <- as.character(places[[1]][i])
@@ -294,5 +298,56 @@ ggplot(web.props2) + geom_histogram(aes(x = N), binwidth = 10)
 ```
 
 ```{r, fig.cap = "Plot connectance against size for years"}
-ggplot(web.props2) + geom_point(aes(x = N, y = C))
+ggplot(web.props2) + geom_point(aes(x = log(N), y = C))
 ```
+
+```{r}
+g.subset <- year.g[25:35]
+
+gmot <- motif_counter(g.subset, webs = 1990:2000)
+
+adj.sub <- lapply(g.subset, get.adjacency, sparse = F)
+spec <- lapply(adj.sub, row.names)
+
+same <- matrix(nrow = length(spec), ncol = length(spec))
+for(i in 1:length(spec)){
+  for(j in 1:length(spec)){
+    same[i,j] <- sum(spec[[i]] %in% spec[[j]])
+  }
+}
+colnames(same) <- 1990:2000
+rownames(same) <- 1990:2000
+```
+
+```{r}
+years <- 1990:2000
+
+get_removed <- function(x){
+  mat1 <- get.adjacency(x, sparse = F)
+  newg <- list()
+  for(i in 1:nrow(mat1)){
+    newmat <- mat1[-i,-i]
+    newg[[i]] <- graph.adjacency(newmat)
+  }
+  return(newg)
+}
+
+removed1 <- lapply(g.subset, get_removed)
+
+sp.mot <- lapply(removed1, function(x){motif_counter(x, webs = 1:length(x))})
+
+for(i in 1:length(sp.mot)){
+  for(j in 1:nrow(sp.mot[[i]])){
+    sp.mot[[i]][j, 2:14] <- gmot[i,2:14] - sp.mot[[i]][j,2:14] 
+  }
+  sp.mot[[i]][, 1] <- spec[[i]]
+  sp.mot[[i]] <- cbind(year = years[i], sp.mot[[i]])
+}
+
+all.spmot <- rbindlist(sp.mot)
+ls.species <- split(all.spmot, factor(all.spmot$web))
+which(sapply(ls.species, nrow) > 2)
+```
+
+
+

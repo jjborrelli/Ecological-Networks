@@ -1,4 +1,4 @@
-setwd("~/Dropbox/Food Web Database/Ecosystem Flow/Ulan")
+setwd("C:/Users/borre_000/Dropbox/Food Web Database/Ecosystem Flow/Ulan")
 
 require(enaR)
 require(reshape2)
@@ -81,3 +81,47 @@ test.web.sd <- t(sapply(websp, function(x){
 boxplot((test.motifs[,2:14] - test.web.means) / test.web.sd)
 abline(h=0)
 
+
+
+## --------------------------------------------
+library(igraph)
+library(NetIndices)
+library(data.table)
+library(ggplot2)
+
+setwd("C:/Users/borre_000/Dropbox/Food Web Database/Ecosystem Flow/Ulan_Edges/")
+ulanEDGE <- list()
+for(i in 1:length(list.files())){
+  ulanEDGE[[i]] <- read.csv(list.files()[i], row.names = 1)
+}
+
+q50 <- sapply(ulanEDGE, function(x){quantile(x[,3], .5)})
+
+uEDGE.50 <- list()
+for(i in 1:length(ulanEDGE)){
+  uEDGE.50[[i]] <- ulanEDGE[[i]][which(ulanEDGE[[i]][,3] >= q50[i]),]
+}
+
+uGRAPH <- lapply(uEDGE.50, function(x){graph.edgelist(as.matrix(x[,1:2]))})
+
+uMAT <- lapply(uGRAPH, get.adjacency, sparse = F)
+
+tind <- lapply(uMAT, TrophInd)
+
+n <- sapply(tind, nrow)
+
+webs <- rep(ulan.names, n)
+
+allTIND <- cbind(rbindlist(tind), webs = webs)
+
+hist(allTIND$OI)
+qplot(allTIND$TL, allTIND$OI, color = allTIND$webs)
+
+par(mfrow=c(3,5), mar = c(.1, .1, .1, .1))
+
+for(i in 1:15){
+  plot(uGRAPH[[i]], layout= layout.fruchterman.reingold, vertex.label = NA, vertex.size = 4, edge.arrow.size = .15)
+}
+
+all0 <- sapply(lapply(uGRAPH, degree), function(x){sum(x == 0)})
+in0 <- sapply(lapply(uGRAPH, degree, mode = "in"), function(x){sum(x == 0)})

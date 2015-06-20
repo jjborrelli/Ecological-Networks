@@ -1,29 +1,37 @@
 niche.model<-function(S,C){
-  new.mat<-matrix(0,nrow=S,ncol=S)
-  ci<-vector()
-  niche<-runif(S,0,1)
-  r<-rbeta(S,1,((1/(2*C))-1))*niche
-  
-  for(i in 1:S){
-    ci[i]<-runif(1,r[i]/2,niche[i])
-  }
-  
-  r[which(niche==min(niche))]<-.00000001
-  
-  for(i in 1:S){
+  require(igraph)
+  connected = FALSE
+  while(!connected){  
+    new.mat<-matrix(0,nrow=S,ncol=S)
+    ci<-vector()
+    niche<-runif(S,0,1)
+    r<-rbeta(S,1,((1/(2*C))-1))*niche
     
-    for(j in 1:S){
-      if(niche[j]>(ci[i]-(.5*r[i])) && niche[j]<(ci[i]+.5*r[i])){
-        new.mat[j,i]<-1
+    for(i in 1:S){
+      ci[i]<-runif(1,r[i]/2,niche[i])
+    }
+    
+    r[which(niche==min(niche))]<-.00000001
+    
+    for(i in 1:S){
+      
+      for(j in 1:S){
+        if(niche[j]>(ci[i]-(.5*r[i])) && niche[j]<(ci[i]+.5*r[i])){
+          new.mat[j,i]<-1
+        }
       }
     }
-  }
-  
+    
   new.mat<-new.mat[,order(apply(new.mat,2,sum))]
+  
+  connected <- is.connected(graph.adjacency(new.mat))
+  }
   return(new.mat)
 }
 
 library(igraph)
+library(NetIndices)
+
 
 niche.web<-niche.model(10,.2)
 
@@ -37,9 +45,37 @@ analyze.eigen <- function(m){
     }
   }
   diag(m) <- -1
-  ev <- max(Re(eigen(m)$values))
-  return(ev)
+  ev <- eigen(m)$values
+  eig <- ev[1]
+  return(eig)
 }
+
+
+
+C <- seq(.05, .3, .05)
+N <- 30
+
+data <- data.frame(TL = c(), C = c())
+eigs <- matrix(nrow = 100, ncol = length(C))
+
+for(j in 1:length(C)){
+  for(i in 1:100){
+    nim <- niche.mode
+    eigs[i,j] <- analyze.eigen(nim) 
+    tind <- TrophInd(nim)$TL
+    
+    dat <- data.frame(TL = tind, C = C[j], web = i)
+    data <- rbind(data, dat)
+  }
+}
+
+eigs
+
+
+alldat <- cbind(aggregate(cbind(data$TL), list(data$C, data$web), max), e = as.vector(eigs))
+
+plot(e ~ V1, data = alldat)
+plot(alldat$e)
 
 # generate a list of niche model webs
 niche_maker <- function(n, S, C){

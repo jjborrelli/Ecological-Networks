@@ -101,13 +101,13 @@ alist1 <- lapply(glist1, get.adjacency, sparse = F)
 
 #perm <- lapply(alist1, permutes_rc)
 
-rol <- getROLES(glist1)
+rol <- getROLES(web.graphs)
 
 #perm.g <- lapply(perm, function(x){lapply(x, graph.adjacency)})
 
 #perm.rol <- lapply(perm.g, getROLES)
 
-ltind <- lapply(alist1, TrophInd)
+ltind <- lapply(lapply(web.graphs, get.adjacency, sparse = F), TrophInd)
 dftind <- rbindlist(ltind)
 dfrol <- rbindlist(rol)
 head(data.frame(dfrol, dftind))
